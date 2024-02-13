@@ -92,8 +92,6 @@ def run_game():
                                 if type_piece == "Pion blanc" or type_piece == "Pion noir":
                                     a.status = True
 
-                                for k in chess_2d: 
-                                    print(k)
 
                                 #############################################################
                                 # changement de tour + vérification d'un échec

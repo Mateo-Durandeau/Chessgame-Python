@@ -9,7 +9,8 @@ Exécutez `pip install pygame` dans le terminal Python.
 ## Présentation
 
 Voici un jeu d'échecs codé en Python avec la librairie Pygame. Lancez le fichier `main.py` pour démarrer une partie.
-cloner le dépot pour éxecuter le main avec Python 3.12
+cloner le dépot pour éxecuter le main
+'pygame 2.5.2 (SDL 2.28.3, Python 3.11.8)'
 
 ### Fonctionnalités implémentées : 
 - Affichage du jeu d'échecs avec les pièces.

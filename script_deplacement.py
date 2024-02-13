@@ -32,6 +32,8 @@ def verif_case_libre(chess_2d, pos_x, pos_y):
         return False
 
 def fonction_verif_roi(chess_2d, new_x, new_y, piece):
+    
+
     verif = True
     verif_reine = True
     test_libre = True
@@ -57,12 +59,18 @@ def fonction_verif_roi(chess_2d, new_x, new_y, piece):
         try: 
             pos_x = new_x + dx
             pos_y = new_y + dy
+
+
+            if not (0 <= pos_x < 8 and 0 <= pos_y < 8):
+                    continue
+
             verif = verif_case(chess_2d, pos_x, pos_y, couleur_roi, "roi")
             if verif == False:
-                
                 return verif
+            
         except IndexError:
             pass
+
 
     if couleur_roi == "white":
         for pos_x_temp, pos_y_temp in tab_pion_blanc:
@@ -108,7 +116,7 @@ def fonction_verif_roi(chess_2d, new_x, new_y, piece):
                 
                 if verif == False:
                     return verif
-                elif verif_reine == False: 
+                elif verif_reine == False:
                     return verif_reine
                 elif test_libre == False:
                     break
@@ -136,7 +144,7 @@ def fonction_verif_roi(chess_2d, new_x, new_y, piece):
 
                 if verif == False:
                     return verif
-                elif verif_reine == False: 
+                elif verif_reine == False:
                     return verif_reine
                 elif test_libre == False:
                     break
@@ -316,7 +324,8 @@ def deplacement_in_check_roi(chess_2d, pos_x, pos_y, roi):
     elif couleur_roi == "black":
         deplacement_post_traitement_roi = deplacement(chess_2d, "Roi noir", pos_x, pos_y, roi)
 
-    
+    print(deplacement_post_traitement_roi)
+
     for x, y in deplacement_post_traitement_roi:
         verif_nouvelle_case = fonction_verif_roi_check(chess_2d, x, y, roi)
         if verif_nouvelle_case == False:
@@ -622,10 +631,13 @@ def deplacement(chess_2d, type_piece, pos_x, pos_y, piece):
                             
             except IndexError:
                 pass
+
         for coup_temp in tab_deplacement_temporaire:
             new_x = coup_temp[0]
             new_y = coup_temp[1]
             verif = False
+
+            print("lalalal", coup_temp)
             # appel fonction qui verifi si un fou, une tour, un pion, une dame : d'une autre couleur que le roi se trouve sur la ligne de la case potentiel
             verif = fonction_verif_roi(chess_2d, new_x, new_y, piece)
             if verif == True:
