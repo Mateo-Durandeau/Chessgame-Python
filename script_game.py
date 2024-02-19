@@ -104,7 +104,11 @@ def run_game():
                                     if black_roi.check == True:
                                         # import des déplacements possible en etat d'échec !
                                         tab_check = deplacement_in_check_roi(chess_2d, pos_roi_x, pos_roi_y, black_roi)
-                                        if tab_check == []:
+                                        tab_check_piece = test_prevision_deplacement(chess_2d, pos_roi_x, pos_roi_y, black_roi)
+
+                                        print(tab_check_piece)
+
+                                        if tab_check == [] and tab_check_piece == []:
                                             print("echec et mat")
                                             running = False
 
@@ -118,8 +122,11 @@ def run_game():
                                     if white_roi.check == True: 
                                         # import des déplacements possible en etat d'échec !
                                         tab_check = deplacement_in_check_roi(chess_2d, pos_roi_x, pos_roi_y, white_roi)
+                                        tab_check_piece = test_prevision_deplacement(chess_2d, pos_roi_x, pos_roi_y, white_roi)
 
-                                        if tab_check == []:
+                                        print(tab_check_piece)
+
+                                        if tab_check == [] and tab_check_piece == []:
                                             print("echec et mat")
                                             running = False
 
@@ -157,7 +164,6 @@ def run_game():
         
 
                         if tab_check != []:
-                            print(tab_check)
 
                             # Parcous des mouvement possible
                             for  piece, val_X, Val_Y in tab_check:      
@@ -196,7 +202,49 @@ def run_game():
                                     
                                     # sorti de la boucle pour eviter des tours supplémentaire
                                     break
+                            
+                            # Gestion du tableau des pieces
+                        elif tab_check_piece != []:
+                            for  L in tab_check_piece:
+                                for  piece, val_X, Val_Y in L:      
+                                    # Si l'endroit sélectionné est dans les mouvements possibles 
+                                    if new_pos_x == val_X and Val_Y == new_pos_y and a.num_case == piece:
+                                            
+                                        # gestion du tableau la restranscription tableau 2D = pièce de l'echequier 
+                                        chess_2d[new_pos_y][new_pos_x] = number_piece
+                                        chess_2d[pos[1]][pos[0]] = 0
+
+                                        a.set_case(new_pos_x, new_pos_y)
+
+
+                                        # Si une pièce est mangé non affichage de la nouvelle pièce par rapport à l'instance
+                                        if pi_temp != 0:
+                                            b.life = False
+
+                                        # mouvement de la piece
+                                        a.move(val[0], val[1])
+
+                                        # si la piece est un pion changement de son status
+                                        if type_piece == "Pion blanc" or type_piece == "Pion noir":
+                                            a.status = True
+
+                                        if TOUR == 1 and white_roi.check == True:
+                                            # mettre fonction qui gère le déplacement lors de l'echec
+                                            white_roi.check = False
+                                            stat = False
+                                            TOUR = 2
+                                        elif TOUR == 2 and black_roi.check == True:
+                                            # mettre fonction qui gère le déplacement lors de l'echec
+                                            stat = False
+                                            black_roi.check = False
+                                            TOUR = 1
+
+                                        
+                                            # sorti de la boucle pour eviter des tours supplémentaire
+                                        break   
+
                             # déselection de la pièce 
+                                
                             a.selected = False
 
 

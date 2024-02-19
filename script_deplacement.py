@@ -1,5 +1,5 @@
 from retransicrip import *
-
+import copy
 
 ################################################################################
     # gestion des déplacements
@@ -324,8 +324,6 @@ def deplacement_in_check_roi(chess_2d, pos_x, pos_y, roi):
     elif couleur_roi == "black":
         deplacement_post_traitement_roi = deplacement(chess_2d, "Roi noir", pos_x, pos_y, roi)
 
-    print(deplacement_post_traitement_roi)
-
     for x, y in deplacement_post_traitement_roi:
         verif_nouvelle_case = fonction_verif_roi_check(chess_2d, x, y, roi)
         if verif_nouvelle_case == False:
@@ -348,8 +346,8 @@ def test_prevision_deplacement(chess_2d, pos_roi_x, pos_roi_y, roi):
 
         # s'il n'y a plus échec, ajouter les déplacement au déplacements possibles
         if tab_deplacement_piece != []:
-    
-            liste_deplacement.append[piece.num_case, tab_deplacement_piece]
+            liste_deplacement.append(tab_deplacement_piece)
+
 
     return liste_deplacement
 
@@ -357,13 +355,25 @@ def test_prevision_deplacement(chess_2d, pos_roi_x, pos_roi_y, roi):
 def fonction_test(chess_2d, piece, pos_roi_x, pos_roi_y, roi):
 
     tab_dep = []
+    cp_chess_2d = copy.deepcopy(chess_2d)
 
-    piece_temp = piece
+    type_piece = type_of_piece(piece.num_case)
 
-    # Appel du déplacement imaginaire de la piece
+    deplacement_post_traitement_roi = deplacement(chess_2d, type_piece, piece.case_x, piece.case_y, piece)
 
-    # test de l'état déchec avec un déplacement imaginaire
-    test_echec = fonction_verif_roi_check(chess_2d, pos_roi_x, pos_roi_y, roi)
+    for x, y in deplacement_post_traitement_roi:
+        # Appel du déplacement imaginaire de la piece
+        cp_chess_2d[piece.case_y][piece.case_y] = 0
+        cp_chess_2d[y][x] = piece.num_case
+
+
+        # test de l'état déchec avec un déplacement imaginaire
+        test_echec = fonction_verif_roi_check(cp_chess_2d, pos_roi_x, pos_roi_y, roi)
+
+        if test_echec == False: 
+            tab_dep.append([piece.num_case, x, y])
+
+        cp_chess_2d = copy.deepcopy(chess_2d)
 
     return tab_dep
 
@@ -389,12 +399,12 @@ def deplacement(chess_2d, type_piece, pos_x, pos_y, piece):
         # Si le pion n'a pas été bougé : Déplacement sur 2 cases
         if piece.status == False:
             try :
-                if chess_2d[pos_y-1][pos_x] != 0:
-                    pass
-                # si il n'y a pas de pièce devant le pion ajouter les déplacements au tableau
-                else:
+                if chess_2d[pos_y-1][pos_x] == 0:
                     tab_deplacement_possible.append((pos_x, pos_y - 1))
-                    tab_deplacement_possible.append((pos_x, pos_y - 2))
+                    if chess_2d[pos_y-2][pos_x] == 0:
+                        tab_deplacement_possible.append((pos_x, pos_y - 2))
+                        # si il n'y a pas de pièce devant le pion ajouter les déplacements au tableau                    
+                    
             except IndexError:
                 pass
 
@@ -428,7 +438,8 @@ def deplacement(chess_2d, type_piece, pos_x, pos_y, piece):
                     pass
                 else:
                     tab_deplacement_possible.append((pos_x, pos_y + 1))
-                    tab_deplacement_possible.append((pos_x, pos_y + 2))
+                    if chess_2d[pos_y+2][pos_x] == 0:
+                        tab_deplacement_possible.append((pos_x, pos_y + 2))
             except IndexError:
                 pass
 

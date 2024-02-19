@@ -17,10 +17,9 @@ cloner le dépot pour éxecuter le main
 - Déplacements des pièces.
 - Prises des pièces par une pièce adverse.
 - Échec et mouvement du roi lors de l'échec.
-- L'échec et mat est implémenté à 60%.
+- Implémentation de l'échec et mat.
 
 ### Fonctionnalités en cours de développement : 
-- Finalisation de l'échec et mat.
 - Après chaque changement de joueur, rotation de l'échiquier et des pièces pour jouer à deux sur le même ordinateur.
 
 ### Fonctionnalités prévues : 
