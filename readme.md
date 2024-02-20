@@ -27,4 +27,5 @@ cloner le dépot pour éxecuter le main
 - Jeu solo contre une IA utilisant l'algorithme Mini-Max avec parcours des coups sous forme d'arbre et élagage alpha-bêta.
 - Affichage Tkinter pour des fonctionnalités de choix et statistiques.
 - Optimisation du code python
+- Affichage lors des séléctions des pièces
   
