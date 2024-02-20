@@ -315,6 +315,10 @@ def run_game_1V1():
         all_sprites = load_piece()
         all_sprites.draw(screen)
 
+        # Avant l'actualisation graphique, inversez l'écran Y-axis  
+        flipped_screen = pygame.transform.flip(screen, False, True)  # False pour non flip X, True pour flip y
+        # Remettez le screen inversé à l'écran d'affichage
+        pygame.display.get_surface().blit(flipped_screen, (0, 0))
 
          # flip() the display to put your work on screen
         pygame.display.flip()
@@ -323,3 +327,16 @@ def run_game_1V1():
 
     pygame.quit()
     return list_game_information
+
+
+def preparation_inversion_ecran(screen):
+        
+        # FAIRE FONCTION RETRANSCRIP POSITION INVERSE 
+
+        # RETOURNER LES PIECES NOIRS ET BLANCHE
+
+        # Avant l'actualisation graphique, inversez l'écran Y-axis  
+        flipped_screen = pygame.transform.flip(screen, False, True)  # False pour non flip X, True pour flip y
+        # Remettez le screen inversé à l'écran d'affichage
+        pygame.display.get_surface().blit(flipped_screen, (0, 0))
+
