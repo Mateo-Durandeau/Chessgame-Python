@@ -7,6 +7,9 @@ import affichage_main
 
 if __name__=='__main__':
 
-    affichage_main.run_game_gestion()
+    a = True
+    while a: 
+        a = affichage_main.run_game_gestion()
+
     #script_game.run_game()
     

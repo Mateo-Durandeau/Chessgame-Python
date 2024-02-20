@@ -10,7 +10,9 @@ pygame.init()
 
 
 
-def run_game():
+def run_game_1V1():
+    list_game_information = []
+
     # Création du tableau 
     board = Board(WIDTH, HEIGHT)
 
@@ -320,3 +322,4 @@ def run_game():
         clock.tick(30)  # limits FPS to 60
 
     pygame.quit()
+    return list_game_information

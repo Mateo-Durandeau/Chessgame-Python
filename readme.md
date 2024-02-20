@@ -25,7 +25,8 @@ cloner le dépot pour éxecuter le main
 ### Fonctionnalités prévues : 
 - Règles spécifiques : Prise en passant, promotion du pion, roque. Les algorithmes sont déjà codés, je dois juste intégrer les mouvements.
 - Jeu solo contre une IA utilisant l'algorithme Mini-Max avec parcours des coups sous forme d'arbre et élagage alpha-bêta.
-- Affichage Tkinter pour des fonctionnalités de choix et statistiques.
+- Affichage Pygame pour des fonctionnalités de choix et statistiques.
 - Optimisation du code python
-- Affichage lors des séléctions des pièces
+- Affichage lors des séléctions des pièces et Affichage des mouvements possible avec un rond
+- Ajouter une fonctionnalité en cas d'échec si on bouge une de nos propre piece
   
