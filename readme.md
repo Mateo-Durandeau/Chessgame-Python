@@ -17,14 +17,12 @@ cloner le dépot pour éxecuter le main
 - Déplacements des pièces.
 - Prises des pièces par une pièce adverse.
 - Échec et mouvement du roi lors de l'échec.
-- Implémentation de l'échec et mat.
+- Implémentation de l'échec et mat et du pat.
 - Affichage lors des séléctions des pièces et Affichage des mouvements possible avec un rond
+- Règles spécifiques : promotion du pion, rock, clouage.
 
 ### Fonctionnalités en cours de développement : 
-- ajout du pat
-- Ajouter une fonctionnalité en cas d'échec si on bouge une de nos propre piece
-- Règles spécifiques : Prise en passant, promotion du pion, roque.
-
+- Règles spécifiques : Prise en passant.
 
 ### Fonctionnalités prévues : 
 

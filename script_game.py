@@ -60,7 +60,7 @@ def run_game_1V1():
                     if a.selected == True and stat == False: 
 
                         # Recherche des mouvements possible par rapport à la pièce séléctionné 
-                        tab_dep = deplacement(chess_2d, type_piece, pos[0], pos[1], a)
+                        tab_dep = deplacement(chess_2d, pos[0], pos[1], a)
 
                         # stockage de la position du nouveau clic
                         new_mouse_x, new_mouse_y = event.pos
@@ -103,7 +103,9 @@ def run_game_1V1():
                                 a.move(val[0], val[1])
 
 
-                                gestion_status(type_piece, a)
+                                gestion_status(a)
+
+                                a = promot(a)
 
                                 #############################################################
                                 # changement de tour + vérification d'un échec
@@ -116,14 +118,12 @@ def run_game_1V1():
                                     if black_roi.check == True:
                                         # import des déplacements possible en etat d'échec !
                                         tab_check_piece = test_prevision_deplacement(chess_2d, pos_roi_x, pos_roi_y, black_roi)
-                                        print(tab_check_piece)
                                         if tab_check_piece == []:
                                             print("echec et mat")
                                             running = False
 
                                     else:
                                         tab_movement_piece = test_prevision_deplacement(chess_2d, pos_roi_x, pos_roi_y, black_roi)
-                                        print(tab_movement_piece)
                                         if tab_movement_piece == []:
                                             print("Match nul")
                                             running = False
@@ -139,14 +139,12 @@ def run_game_1V1():
                                     if white_roi.check == True: 
                                         # import des déplacements possible en etat d'échec !
                                         tab_check_piece = test_prevision_deplacement(chess_2d, pos_roi_x, pos_roi_y, white_roi)
-                                        print(tab_check_piece)
                                         if tab_check_piece == []:
                                             print("echec et mat")
                                             running = False
 
                                     else:
                                         tab_movement_piece = test_prevision_deplacement(chess_2d, pos_roi_x, pos_roi_y, white_roi)
-                                        print(tab_movement_piece)
                                         if tab_movement_piece == []:
                                             print("Match nul")
                                             running = False
@@ -204,7 +202,9 @@ def run_game_1V1():
                                         # mouvement de la piece
                                         a.move(val[0], val[1])
 
-                                        gestion_status(type_piece, a)
+                                        gestion_status(a)
+
+                                        a = promot(a)
 
                                         if TOUR == 1 and white_roi.check == True:
                                             # mettre fonction qui gère le déplacement lors de l'echec
@@ -253,11 +253,7 @@ def run_game_1V1():
 
                             # Affichage du tour en cas d'erreur
                             mauvais_tour(a, TOUR)
-                                
-                        # stockage du type de la pièces
-                        type_piece = type_of_piece(number_piece)
-                        
-                        
+                                                        
 
                        # Gestion du relaché de clic à gerer plus tard
                         
@@ -288,7 +284,7 @@ def run_game_1V1():
 
         # affichage des mouvements possible
         if a.selected == True:
-            tab_dep_temp = deplacement(chess_2d, type_piece, pos[0], pos[1], a)
+            tab_dep_temp = deplacement(chess_2d, pos[0], pos[1], a)
             if stat == False:
                 for X, Y in tab_dep_temp:
                     tab_dep_pos = retranscription_case(X, Y) 
@@ -344,13 +340,13 @@ def mauvais_tour(a, TOUR):
         print("Au tour des Blancs")
 
 
-def gestion_status(type_piece, a):
+def gestion_status(a):
     # si la piece est un pion changement de son status
-    if type_piece == "Pion blanc" or type_piece == "Pion noir":
+    if a.type == "pion":
         a.status = True
-    if type_piece == "Roi blanc" or type_piece == "Roi noir":
+    if a.type == "roi":
         a.status = False
-    if type_piece == "Tour blanche" or type_piece == "Tour noir":
+    if a.type == "tour":
         a.status = False
 
 def mouvement_tour_rock(a, new_pos_x, new_pos_y):
@@ -384,10 +380,21 @@ def mouvement_tour_rock(a, new_pos_x, new_pos_y):
             a.rock = False
 
 
-def ajout_pat(pos_roi_x, pos_roi_y):
-    if black_roi.check == False:
-        tab_movement_piece = test_prevision_deplacement(chess_2d, pos_roi_x, pos_roi_y, black_roi)
-        if tab_movement_piece == []:
-            print("Match nul")
-            running = False
-            
+def promot(a):
+    if a.type == "pion" and a.changement == False:
+        pos_temp_chang = retranscription_case(a.case_x, a.case_y)
+        if a.color == "white":
+            print(a.case_y)
+            if a.case_y == 0:
+                a.type = 'reine'
+                a.image = pygame.image.load('image/dame_blanche.png')
+                a.image = pygame.transform.scale(a.image, (WIDTH//8, HEIGHT//8))
+                a.changement = True
+
+        elif a.color == "black":
+            if a.case_y == 7:
+                a.type = 'reine'
+                a.image = pygame.image.load('image/dame_blanche.png')
+                a.image = pygame.transform.scale(a.image, (WIDTH//8, HEIGHT//8))
+                a.changement = True
+    return a

@@ -328,12 +328,11 @@ def fonction_test(chess_2d, piece, pos_roi_x, pos_roi_y, roi):
     tab_dep = []
     cp_chess_2d = copy.deepcopy(chess_2d)
 
-    type_piece = type_of_piece(piece.num_case) 
 
-    deplacement_post_traitement_roi = deplacement(chess_2d, type_piece, piece.case_x, piece.case_y, piece)
+    deplacement_post_traitement_roi = deplacement(chess_2d, piece.case_x, piece.case_y, piece)
 
 
-    if type_piece == "Roi blanc" or type_piece == "Roi noir" :
+    if piece.type == "roi":
         for x, y in deplacement_post_traitement_roi:
             verif_nouvelle_case = fonction_verif_roi_check(chess_2d, x, y, roi)
             if verif_nouvelle_case == False:
@@ -371,7 +370,7 @@ def fonction_test(chess_2d, piece, pos_roi_x, pos_roi_y, roi):
 
 
 
-def deplacement(chess_2d, type_piece, pos_x, pos_y, piece):
+def deplacement(chess_2d, pos_x, pos_y, piece):
     """ 
     Ajout dans un tableau les positions possible pour une pièces séléctionner --> mettre se tableau dans la seconde gestion du clic
     """
@@ -380,6 +379,7 @@ def deplacement(chess_2d, type_piece, pos_x, pos_y, piece):
 
     # tableau qui va stocker les déplacements possible si il y en a
     tab_deplacement_possible = []
+    tab_dep = []
 
 
     ##############################################
@@ -387,7 +387,7 @@ def deplacement(chess_2d, type_piece, pos_x, pos_y, piece):
     ##############################################
 
     # Pions blanc
-    if type_piece == "Pion blanc":
+    if piece.type == "pion" and piece.color == "white":
 
         # Si le pion n'a pas été bougé : Déplacement sur 2 cases
         if piece.status == False:
@@ -428,7 +428,7 @@ def deplacement(chess_2d, type_piece, pos_x, pos_y, piece):
             pass
                 
     # Pion noir // pour détail voir commentaire des pions blancs
-    if type_piece == "Pion noir":
+    if piece.type == "pion" and piece.color == "black":
         if piece.status == False:
             try :
                 if chess_2d[pos_y+1][pos_x] != 0:
@@ -470,7 +470,7 @@ def deplacement(chess_2d, type_piece, pos_x, pos_y, piece):
         # Déplacement des Fous 
     ##############################################
         
-    if type_piece == "Fou noir" or type_piece == "Fou blanc":
+    if piece.type == "fou":
         couleur_fou = piece.color
 
         directions = [(1, 1), (-1, 1), (1, -1), (-1, -1)]  # Les directions possibles pour un fou
@@ -504,7 +504,7 @@ def deplacement(chess_2d, type_piece, pos_x, pos_y, piece):
         # Déplacement des Cavaliers
     ##############################################
 
-    if type_piece == "Cavalier noir" or type_piece == "Cavalier blanc":
+    if piece.type == "cavalier":
         couleur_cavalier = piece.color
 
         tableau_pos = [(-1, -2), (-2, -1), (-2, 1), (-1, 2), (1, 2), (2, 1), (2, -1), (1, -2)]
@@ -532,7 +532,7 @@ def deplacement(chess_2d, type_piece, pos_x, pos_y, piece):
     ##############################################
             
     # Déplacement de la tour
-    if type_piece == "Tour noir" or type_piece == "Tour blanche":
+    if piece.type == "tour":
         couleur_tour = piece.color
 
         # Tableau des directions pour la tour
@@ -563,7 +563,7 @@ def deplacement(chess_2d, type_piece, pos_x, pos_y, piece):
         # Déplacement des reine
     ##############################################
         
-    if type_piece == "Reine noir" or type_piece == "Reine blanche":
+    if piece.type == "reine":
         couleur_reine = piece.color
 
         # Tableau des directions pour la tour
@@ -618,7 +618,7 @@ def deplacement(chess_2d, type_piece, pos_x, pos_y, piece):
         # Déplacement des Rois
     ##############################################
 
-    if type_piece == "Roi noir" or type_piece == "Roi blanc":
+    if piece.type == "roi":
         couleur_roi = piece.color
 
         tab_deplacement_temporaire = []
@@ -675,4 +675,27 @@ def deplacement(chess_2d, type_piece, pos_x, pos_y, piece):
             if verif == True:
                 tab_deplacement_possible.append((new_x, new_y))
 
-    return tab_deplacement_possible
+
+
+    # Fonctionnalité du clouage
+    # on a : piece
+            
+    cp_chess_2d = copy.deepcopy(chess_2d)
+
+    for X, Y in tab_deplacement_possible:
+
+        cp_chess_2d[piece.case_y][piece.case_x] = 0
+        cp_chess_2d[Y][X] = piece.num_case
+
+        # test de l'état déchec avec un déplacement imaginaire
+        if piece.color == "white":
+            test_echec = fonction_verif_roi_check(cp_chess_2d, white_roi.case_x, white_roi.case_y, white_roi)
+        elif piece.color == "black":
+            test_echec = fonction_verif_roi_check(cp_chess_2d, black_roi.case_x, black_roi.case_y, black_roi)
+
+        if test_echec == False: 
+            tab_dep.append((X, Y))
+
+        cp_chess_2d = copy.deepcopy(chess_2d)
+
+    return tab_dep

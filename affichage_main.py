@@ -47,7 +47,7 @@ def run_game_gestion():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running_gestion = False
+                running_gestion = False 
                 quit = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:

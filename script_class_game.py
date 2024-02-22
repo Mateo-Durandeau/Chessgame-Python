@@ -45,6 +45,7 @@ class Pion(Piece):
         super().__init__(color, path, x, y, case_x, case_y, num_case)
         self.selected = False
         self.status = False
+        self.changement = False
         self.life = True
         self.type = "pion"
 
