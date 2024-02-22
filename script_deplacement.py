@@ -311,12 +311,13 @@ def test_prevision_deplacement(chess_2d, pos_roi_x, pos_roi_y, roi):
     # Pour toute les pièces sur l'échiquier 
     for piece in tab_piece_test:
 
-        # Faire un déplcament imaginaire et tester si il y a encore echec 
-        tab_deplacement_piece = fonction_test(chess_2d, piece, pos_roi_x, pos_roi_y, roi)
+        if piece.color == roi.color and piece.life == True:
+            # Faire un déplcament imaginaire et tester si il y a encore echec 
+            tab_deplacement_piece = fonction_test(chess_2d, piece, pos_roi_x, pos_roi_y, roi)
 
-        # s'il n'y a plus échec, ajouter les déplacement au déplacements possibles
-        if tab_deplacement_piece != []:
-            liste_deplacement.append(tab_deplacement_piece)
+            # s'il n'y a plus échec, ajouter les déplacement au déplacements possibles
+            if tab_deplacement_piece != []:
+                liste_deplacement.append(tab_deplacement_piece)
 
 
     return liste_deplacement
@@ -341,10 +342,6 @@ def fonction_test(chess_2d, piece, pos_roi_x, pos_roi_y, roi):
     else :
         for x, y in deplacement_post_traitement_roi:
 
-            if piece.type == "cavalier" and piece.color == "black":
-                print(piece.num_case)
-                print(piece.case_x, piece.case_y)
-
             # Appel du déplacement imaginaire de la piece
             cp_chess_2d[piece.case_y][piece.case_x] = 0
             cp_chess_2d[y][x] = piece.num_case
@@ -356,8 +353,6 @@ def fonction_test(chess_2d, piece, pos_roi_x, pos_roi_y, roi):
                 tab_dep.append([piece.num_case, x, y])
 
             cp_chess_2d = copy.deepcopy(chess_2d)
-
-            
 
     return tab_dep
 
@@ -648,24 +643,27 @@ def deplacement(chess_2d, type_piece, pos_x, pos_y, piece):
             except IndexError:
                 pass
 
+        try : 
+            # ajout de la fonctionnalité du rock 
+            if piece.status == False and piece.check == False: 
+                if piece.color == "white":
+                    if chess_2d[pos_y][pos_x+1] == 0 and chess_2d[pos_y][pos_x+2] == 0 and chess_2d[pos_y][pos_x+3] == 32 and white_tour2.status == False:
+                        piece.rock = True
+                        tab_deplacement_temporaire.append((pos_x+2, pos_y))
+                    if chess_2d[pos_y][pos_x-1] == 0 and chess_2d[pos_y][pos_x-2] == 0 and chess_2d[pos_y][pos_x-3] == 0 and chess_2d[pos_y][pos_x-4] == 25 and white_tour1.status == False:
+                        piece.rock = True
+                        tab_deplacement_temporaire.append((pos_x-2, pos_y))
 
-        # ajout de la fonctionnalité du rock 
-        if piece.status == False and piece.check == False: 
-            if piece.color == "white":
-                if chess_2d[pos_y][pos_x+1] == 0 and chess_2d[pos_y][pos_x+2] == 0 and chess_2d[pos_y][pos_x+3] == 32 and white_tour2.status == False:
-                    piece.rock = True
-                    tab_deplacement_temporaire.append((pos_x+2, pos_y))
-                if chess_2d[pos_y][pos_x-1] == 0 and chess_2d[pos_y][pos_x-2] == 0 and chess_2d[pos_y][pos_x-3] == 0 and chess_2d[pos_y][pos_x-4] == 25 and white_tour1.status == False:
-                    piece.rock = True
-                    tab_deplacement_temporaire.append((pos_x-2, pos_y))
+                elif piece.color == "black":
+                    if chess_2d[pos_y][pos_x+1] == 0 and chess_2d[pos_y][pos_x+2] == 0 and chess_2d[pos_y][pos_x+3] == 8 and black_tour2.status == False:
+                        piece.rock = True
+                        tab_deplacement_temporaire.append((pos_x+2, pos_y))
+                    if chess_2d[pos_y][pos_x-1] == 0 and chess_2d[pos_y][pos_x-2] == 0 and chess_2d[pos_y][pos_x-3] == 0 and chess_2d[pos_y][pos_x-4] == 1 and black_tour1.status == False:
+                        piece.rock = True
+                        tab_deplacement_temporaire.append((pos_x-2, pos_y))
+        except IndexError:
+            pass
 
-            elif piece.color == "black":
-                if chess_2d[pos_y][pos_x+1] == 0 and chess_2d[pos_y][pos_x+2] == 0 and chess_2d[pos_y][pos_x+3] == 8 and black_tour2.status == False:
-                    piece.rock = True
-                    tab_deplacement_temporaire.append((pos_x+2, pos_y))
-                if chess_2d[pos_y][pos_x-1] == 0 and chess_2d[pos_y][pos_x-2] == 0 and chess_2d[pos_y][pos_x-3] == 0 and chess_2d[pos_y][pos_x-4] == 1 and black_tour1.status == False:
-                    piece.rock = True
-                    tab_deplacement_temporaire.append((pos_x-2, pos_y))
                 
 
         for coup_temp in tab_deplacement_temporaire:

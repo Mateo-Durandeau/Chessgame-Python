@@ -116,11 +116,19 @@ def run_game_1V1():
                                     if black_roi.check == True:
                                         # import des déplacements possible en etat d'échec !
                                         tab_check_piece = test_prevision_deplacement(chess_2d, pos_roi_x, pos_roi_y, black_roi)
+                                        print(tab_check_piece)
                                         if tab_check_piece == []:
                                             print("echec et mat")
                                             running = False
 
-
+                                    else:
+                                        tab_movement_piece = test_prevision_deplacement(chess_2d, pos_roi_x, pos_roi_y, black_roi)
+                                        print(tab_movement_piece)
+                                        if tab_movement_piece == []:
+                                            print("Match nul")
+                                            running = False
+                                    
+            
 
                                 elif TOUR == 2:
                                     TOUR = 1
@@ -131,8 +139,16 @@ def run_game_1V1():
                                     if white_roi.check == True: 
                                         # import des déplacements possible en etat d'échec !
                                         tab_check_piece = test_prevision_deplacement(chess_2d, pos_roi_x, pos_roi_y, white_roi)
+                                        print(tab_check_piece)
                                         if tab_check_piece == []:
                                             print("echec et mat")
+                                            running = False
+
+                                    else:
+                                        tab_movement_piece = test_prevision_deplacement(chess_2d, pos_roi_x, pos_roi_y, white_roi)
+                                        print(tab_movement_piece)
+                                        if tab_movement_piece == []:
+                                            print("Match nul")
                                             running = False
 
 
@@ -366,3 +382,12 @@ def mouvement_tour_rock(a, new_pos_x, new_pos_y):
             black_tour1.set_case(3, 0)
             black_tour1.move(300, 0)
             a.rock = False
+
+
+def ajout_pat(pos_roi_x, pos_roi_y):
+    if black_roi.check == False:
+        tab_movement_piece = test_prevision_deplacement(chess_2d, pos_roi_x, pos_roi_y, black_roi)
+        if tab_movement_piece == []:
+            print("Match nul")
+            running = False
+            
