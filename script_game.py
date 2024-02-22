@@ -84,7 +84,37 @@ def run_game_1V1():
                         for val_X, Val_Y in tab_dep:      
 
                             # Si l'endroit sélectionné est dans les mouvements possibles 
+                            # deplacement de la tour pendant un rock
                             if new_pos_x == val_X and Val_Y == new_pos_y:
+
+                                if a.type == "roi" and a.rock == True:
+                                    if a.color == "white" and new_pos_x == 6 and new_pos_y == 7:
+                                        chess_2d[7][5] = 32
+                                        chess_2d[7][7] = 0
+                                        white_tour2.set_case(5, 7)
+                                        white_tour2.move(500, 700)
+                                        a.rock = False
+
+                                    if a.color == "black" and new_pos_x == 6 and new_pos_y == 0:
+                                        chess_2d[0][5] = 8
+                                        chess_2d[0][7] = 0
+                                        black_tour2.set_case(5, 0)
+                                        black_tour2.move(500, 0)
+                                        a.rock = False
+
+                                    if a.color == "white" and new_pos_x == 2 and new_pos_y == 7:
+                                        chess_2d[7][3] = 25
+                                        chess_2d[7][7] = 0
+                                        white_tour1.set_case(3, 7)
+                                        white_tour1.move(300, 700)
+                                        a.rock = False
+
+                                    if a.color == "black" and new_pos_x == 2 and new_pos_y == 0:
+                                        chess_2d[0][3] = 1
+                                        chess_2d[0][0] = 0
+                                        black_tour1.set_case(3, 0)
+                                        black_tour1.move(300, 0)
+                                        a.rock = False
                                 
                                 # gestion du tableau la restranscription tableau 2D = pièce de l'echequier 
                                 chess_2d[new_pos_y][new_pos_x] = number_piece
@@ -99,12 +129,15 @@ def run_game_1V1():
                                 # mouvement de la piece
                                 a.move(val[0], val[1])
 
-                                # si la piece est un pion changement de son status
+
+
+                                # changement de status lors d'un premier mouvement 
                                 if type_piece == "Pion blanc" or type_piece == "Pion noir":
                                     a.status = True
-
                                 if type_piece == "Roi blanc" or type_piece == "Roi noir":
-                                    a.status = False
+                                    a.status = True
+                                if type_piece == "Tour blanche" or type_piece == "Tour noir":
+                                    a.status = True
 
 
                                 #############################################################
@@ -193,6 +226,8 @@ def run_game_1V1():
                                         if type_piece == "Pion blanc" or type_piece == "Pion noir":
                                             a.status = True
                                         if type_piece == "Roi blanc" or type_piece == "Roi noir":
+                                            a.status = False
+                                        if type_piece == "Tour blanche" or type_piece == "Tour noir":
                                             a.status = False
 
                                         if TOUR == 1 and white_roi.check == True:

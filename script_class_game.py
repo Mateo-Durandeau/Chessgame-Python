@@ -74,6 +74,7 @@ class Roi(Piece):
         self.life = True
         self.check = False
         self.type = "roi"
+        self.rock = False
 
 
 class Reine(Piece):

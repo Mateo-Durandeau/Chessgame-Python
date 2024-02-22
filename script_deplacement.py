@@ -400,6 +400,10 @@ def deplacement(chess_2d, type_piece, pos_x, pos_y, piece):
             stat = verif_color(chess_2d, (pos_y-1), (pos_x+1))
             if chess_2d[pos_y-1][pos_x+1] != 0 and stat != "white": 
                 tab_deplacement_possible.append((pos_x + 1, pos_y - 1))
+        except IndexError:
+            pass
+
+        try:    
             stat = verif_color(chess_2d, (pos_y-1), (pos_x-1))
             if chess_2d[pos_y-1][pos_x-1] != 0  and stat != "white": 
                 tab_deplacement_possible.append((pos_x - 1, pos_y - 1))
@@ -434,7 +438,10 @@ def deplacement(chess_2d, type_piece, pos_x, pos_y, piece):
             stat = verif_color(chess_2d, (pos_y+1), (pos_x+1))
             if chess_2d[pos_y+1][pos_x+1] != 0 and stat != "black": 
                 tab_deplacement_possible.append((pos_x + 1, pos_y + 1))
+        except IndexError:
+            pass
 
+        try:    
             stat = verif_color(chess_2d, (pos_y+1), (pos_x-1))
             if chess_2d[pos_y+1][pos_x-1] != 0 and stat != "black": 
                 tab_deplacement_possible.append((pos_x - 1, pos_y + 1))
@@ -621,8 +628,23 @@ def deplacement(chess_2d, type_piece, pos_x, pos_y, piece):
 
 
         # ajout de la fonctionnalité du rock 
-        if piece.status == True: 
-            pass
+        if piece.status == False and piece.check == False: 
+            if piece.color == "white":
+                if chess_2d[pos_y][pos_x+1] == 0 and chess_2d[pos_y][pos_x+2] == 0 and chess_2d[pos_y][pos_x+3] == 32 and white_tour2.status == False:
+                    piece.rock = True
+                    tab_deplacement_temporaire.append((pos_x+2, pos_y))
+                if chess_2d[pos_y][pos_x-1] == 0 and chess_2d[pos_y][pos_x-2] == 0 and chess_2d[pos_y][pos_x-3] == 0 and chess_2d[pos_y][pos_x-4] == 25 and white_tour1.status == False:
+                    piece.rock = True
+                    tab_deplacement_temporaire.append((pos_x-2, pos_y))
+
+            elif piece.color == "black":
+                if chess_2d[pos_y][pos_x+1] == 0 and chess_2d[pos_y][pos_x+2] == 0 and chess_2d[pos_y][pos_x+3] == 8 and black_tour2.status == False:
+                    piece.rock = True
+                    tab_deplacement_temporaire.append((pos_x+2, pos_y))
+                if chess_2d[pos_y][pos_x-1] == 0 and chess_2d[pos_y][pos_x-2] == 0 and chess_2d[pos_y][pos_x-3] == 0 and chess_2d[pos_y][pos_x-4] == 1 and black_tour1.status == False:
+                    piece.rock = True
+                    tab_deplacement_temporaire.append((pos_x-2, pos_y))
+                
 
         for coup_temp in tab_deplacement_temporaire:
             new_x = coup_temp[0]
