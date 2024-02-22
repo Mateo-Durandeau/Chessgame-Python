@@ -11,9 +11,10 @@ pygame.init()
 
 
 def run_game_1V1():
+    # A gerer plus tard c'est pour les statisiques
     list_game_information = []
 
-    # Création du tableau 
+    # Création du tableau / echiquer 
     board = Board(WIDTH, HEIGHT)
 
     # définition du tour des blancs au début de partie
@@ -26,27 +27,35 @@ def run_game_1V1():
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     clock = pygame.time.Clock()
 
+
+    # INIT SELECTION 
+    # Point 
+    image_pos = pygame.image.load('image/positionement.png')
+    image_pos = pygame.transform.scale(image_pos, (WIDTH//8, HEIGHT//8))
+
     # initialisation de la variable a qui stockera les instances des pièces séléctionner lors des events de clic
     a = white_pion1
     a.selected = False
 
+    # initation de l'etat d'échec à False
     stat = False
 
+    # Init du running en true pour lancer la boucle de jeu
     running = True
 
     # boucle principam 
     while running:
+
         # Gestion des événements
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
-            elif event.type == pygame.MOUSEBUTTONDOWN:
- 
+            elif event.type == pygame.MOUSEBUTTONDOWN: 
                 if event.button == 1:  # Clic gauche de la souris
                     
                     ###############################################################################
-                        #   gestion des déplacements 
+                        #   gestion des déplacements pour une pièce deja séléctionné
                     ###############################################################################
                     if a.selected == True and stat == False: 
 
@@ -94,6 +103,9 @@ def run_game_1V1():
                                 if type_piece == "Pion blanc" or type_piece == "Pion noir":
                                     a.status = True
 
+                                if type_piece == "Roi blanc" or type_piece == "Roi noir":
+                                    a.status = False
+
 
                                 #############################################################
                                 # changement de tour + vérification d'un échec
@@ -105,15 +117,11 @@ def run_game_1V1():
                                     etat_echec(chess_2d, pos_roi_x, pos_roi_y, black_roi)
                                     if black_roi.check == True:
                                         # import des déplacements possible en etat d'échec !
-                                        tab_check = deplacement_in_check_roi(chess_2d, pos_roi_x, pos_roi_y, black_roi)
                                         tab_check_piece = test_prevision_deplacement(chess_2d, pos_roi_x, pos_roi_y, black_roi)
 
-                                        print(tab_check_piece)
-
-                                        if tab_check == [] and tab_check_piece == []:
+                                        if tab_check_piece == []:
                                             print("echec et mat")
                                             running = False
-
 
                                 elif TOUR == 2:
                                     TOUR = 1
@@ -123,12 +131,8 @@ def run_game_1V1():
                                     etat_echec(chess_2d, pos_roi_x, pos_roi_y, white_roi)
                                     if white_roi.check == True: 
                                         # import des déplacements possible en etat d'échec !
-                                        tab_check = deplacement_in_check_roi(chess_2d, pos_roi_x, pos_roi_y, white_roi)
                                         tab_check_piece = test_prevision_deplacement(chess_2d, pos_roi_x, pos_roi_y, white_roi)
-
-                                        print(tab_check_piece)
-
-                                        if tab_check == [] and tab_check_piece == []:
+                                        if tab_check_piece == []:
                                             print("echec et mat")
                                             running = False
 
@@ -163,50 +167,9 @@ def run_game_1V1():
 
                         # retranscription des valeurs de positionnement du nouveau mouvement
                         val = retranscription_case(new_pos_x, new_pos_y)
-        
-
-                        if tab_check != []:
-
-                            # Parcous des mouvement possible
-                            for  piece, val_X, Val_Y in tab_check:      
-                                    # Si l'endroit sélectionné est dans les mouvements possibles 
-                                if new_pos_x == val_X and Val_Y == new_pos_y and a.num_case == piece:
-                                        
-                                    # gestion du tableau la restranscription tableau 2D = pièce de l'echequier 
-                                    chess_2d[new_pos_y][new_pos_x] = number_piece
-                                    chess_2d[pos[1]][pos[0]] = 0
-
-                                    a.set_case(new_pos_x, new_pos_y)
-
-
-                                    # Si une pièce est mangé non affichage de la nouvelle pièce par rapport à l'instance
-                                    if pi_temp != 0:
-                                        b.life = False
-
-                                    # mouvement de la piece
-                                    a.move(val[0], val[1])
-
-                                    # si la piece est un pion changement de son status
-                                    if type_piece == "Pion blanc" or type_piece == "Pion noir":
-                                        a.status = True
-
-                                    if TOUR == 1 and white_roi.check == True:
-                                        # mettre fonction qui gère le déplacement lors de l'echec
-                                        white_roi.check = False
-                                        stat = False
-                                        TOUR = 2
-                                    elif TOUR == 2 and black_roi.check == True:
-                                        # mettre fonction qui gère le déplacement lors de l'echec
-                                        stat = False
-                                        black_roi.check = False
-                                        TOUR = 1
-
-                                    
-                                    # sorti de la boucle pour eviter des tours supplémentaire
-                                    break
                             
-                            # Gestion du tableau des pieces
-                        elif tab_check_piece != []:
+                        # Gestion du tableau des pieces
+                        if tab_check_piece != []:
                             for  L in tab_check_piece:
                                 for  piece, val_X, Val_Y in L:      
                                     # Si l'endroit sélectionné est dans les mouvements possibles 
@@ -229,25 +192,26 @@ def run_game_1V1():
                                         # si la piece est un pion changement de son status
                                         if type_piece == "Pion blanc" or type_piece == "Pion noir":
                                             a.status = True
+                                        if type_piece == "Roi blanc" or type_piece == "Roi noir":
+                                            a.status = False
 
                                         if TOUR == 1 and white_roi.check == True:
                                             # mettre fonction qui gère le déplacement lors de l'echec
                                             white_roi.check = False
                                             stat = False
                                             TOUR = 2
+                                            a.selected = False
                                         elif TOUR == 2 and black_roi.check == True:
                                             # mettre fonction qui gère le déplacement lors de l'echec
                                             stat = False
                                             black_roi.check = False
                                             TOUR = 1
-
+                                            a.selected = False
                                         
                                             # sorti de la boucle pour eviter des tours supplémentaire
-                                        break   
-
-                            # déselection de la pièce 
-                                
-                            a.selected = False
+                        
+                                        break    
+                        a.selected = False
 
 
                     else:
@@ -310,15 +274,33 @@ def run_game_1V1():
         # chargement du tableau 
         screen.fill((234, 233, 210))
         board.draw_chessboard(screen)
-        
+
+        if a.selected == True:
+            # affichage de la piece selectionné :
+            pygame.draw.rect(screen, (176, 112, 82), pygame.Rect(a.rect[0], a.rect[1], WIDTH//8, HEIGHT//8))
+
+
         # chargement des pieces
         all_sprites = load_piece()
         all_sprites.draw(screen)
 
-        # Avant l'actualisation graphique, inversez l'écran Y-axis  
-        flipped_screen = pygame.transform.flip(screen, False, True)  # False pour non flip X, True pour flip y
-        # Remettez le screen inversé à l'écran d'affichage
-        pygame.display.get_surface().blit(flipped_screen, (0, 0))
+
+        # affichage des mouvements possible
+        if a.selected == True:
+            tab_dep_temp = deplacement(chess_2d, type_piece, pos[0], pos[1], a)
+            if stat == False:
+                for X, Y in tab_dep_temp:
+                    tab_dep_pos = retranscription_case(X, Y) 
+                    screen.blit(image_pos, (tab_dep_pos[0], tab_dep_pos[1]))
+            # pendant l'échec
+            elif stat == True: 
+                for  L in tab_check_piece:
+                    for  piece, X, Y in L: 
+                        if a.num_case == piece: 
+                            tab_dep_pos = retranscription_case(X, Y) 
+                            screen.blit(image_pos, (tab_dep_pos[0], tab_dep_pos[1]))
+
+
 
          # flip() the display to put your work on screen
         pygame.display.flip()
@@ -326,6 +308,9 @@ def run_game_1V1():
         clock.tick(30)  # limits FPS to 60
 
     pygame.quit()
+
+    # destruction de toutes les informations des instances / reload 
+
     return list_game_information
 
 

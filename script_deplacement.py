@@ -298,39 +298,9 @@ def etat_echec(chess_2d, new_x, new_y, roi):
     echec = fonction_verif_roi_check(chess_2d, new_x, new_y, roi)
     if echec == True:
         roi.check = True
-        print(f"le roi {roi.color} est en echec !!!!!!!!!!!!!!!!!!!")
+        print(f"le roi {roi.color} est en echec !!!")
     elif echec == False:
         roi.check == False
-
-
-def deplacement_in_check_roi(chess_2d, pos_x, pos_y, roi):
-    """
-        Si le roi est en echec cette fonction va retourner un tableau de mouvement possible de pièce ou du roi
-        Si la fonction renvoi un tableau vide, il y a un echec et mat
-        pos_x = position du roi en x
-        pos_y = position du roi en y 
-    """
-    couleur_roi = roi.color
-
-
-    # tableau deplacement possible 
-    deplacement_post_traitement_roi = []
-    tab_deplacement = []
-
-    # met les déplacements de chaque pièce dans son tableau
-    if couleur_roi == "white":
-        deplacement_post_traitement_roi = deplacement(chess_2d, "Roi blanc", pos_x, pos_y, roi)
-
-    elif couleur_roi == "black":
-        deplacement_post_traitement_roi = deplacement(chess_2d, "Roi noir", pos_x, pos_y, roi)
-
-    for x, y in deplacement_post_traitement_roi:
-        verif_nouvelle_case = fonction_verif_roi_check(chess_2d, x, y, roi)
-        if verif_nouvelle_case == False:
-            tab_deplacement.append([roi.num_case, x, y])
-
-
-    return tab_deplacement
 
 
 
@@ -357,23 +327,29 @@ def fonction_test(chess_2d, piece, pos_roi_x, pos_roi_y, roi):
     tab_dep = []
     cp_chess_2d = copy.deepcopy(chess_2d)
 
-    type_piece = type_of_piece(piece.num_case)
+    type_piece = type_of_piece(piece.num_case) 
 
     deplacement_post_traitement_roi = deplacement(chess_2d, type_piece, piece.case_x, piece.case_y, piece)
 
-    for x, y in deplacement_post_traitement_roi:
-        # Appel du déplacement imaginaire de la piece
-        cp_chess_2d[piece.case_y][piece.case_y] = 0
-        cp_chess_2d[y][x] = piece.num_case
+    if type_piece == "Roi blanc" or type_piece == "Roi noir" :
+        for x, y in deplacement_post_traitement_roi:
+            verif_nouvelle_case = fonction_verif_roi_check(chess_2d, x, y, roi)
+            if verif_nouvelle_case == False:
+                tab_dep.append([piece.num_case, x, y])
 
+    else :
+        for x, y in deplacement_post_traitement_roi:
+            # Appel du déplacement imaginaire de la piece
+            cp_chess_2d[piece.case_y][piece.case_y] = 0
+            cp_chess_2d[y][x] = piece.num_case
 
-        # test de l'état déchec avec un déplacement imaginaire
-        test_echec = fonction_verif_roi_check(cp_chess_2d, pos_roi_x, pos_roi_y, roi)
+            # test de l'état déchec avec un déplacement imaginaire
+            test_echec = fonction_verif_roi_check(cp_chess_2d, pos_roi_x, pos_roi_y, roi)
 
-        if test_echec == False: 
-            tab_dep.append([piece.num_case, x, y])
+            if test_echec == False: 
+                tab_dep.append([piece.num_case, x, y])
 
-        cp_chess_2d = copy.deepcopy(chess_2d)
+            cp_chess_2d = copy.deepcopy(chess_2d)
 
     return tab_dep
 
@@ -643,19 +619,18 @@ def deplacement(chess_2d, type_piece, pos_x, pos_y, piece):
             except IndexError:
                 pass
 
+
+        # ajout de la fonctionnalité du rock 
+        if piece.status == True: 
+            pass
+
         for coup_temp in tab_deplacement_temporaire:
             new_x = coup_temp[0]
             new_y = coup_temp[1]
             verif = False
-
-            print("lalalal", coup_temp)
             # appel fonction qui verifi si un fou, une tour, un pion, une dame : d'une autre couleur que le roi se trouve sur la ligne de la case potentiel
             verif = fonction_verif_roi(chess_2d, new_x, new_y, piece)
             if verif == True:
                 tab_deplacement_possible.append((new_x, new_y))
-            else: 
-                pass
-        
-
 
     return tab_deplacement_possible
