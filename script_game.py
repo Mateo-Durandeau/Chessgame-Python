@@ -87,34 +87,7 @@ def run_game_1V1():
                             # deplacement de la tour pendant un rock
                             if new_pos_x == val_X and Val_Y == new_pos_y:
 
-                                if a.type == "roi" and a.rock == True:
-                                    if a.color == "white" and new_pos_x == 6 and new_pos_y == 7:
-                                        chess_2d[7][5] = 32
-                                        chess_2d[7][7] = 0
-                                        white_tour2.set_case(5, 7)
-                                        white_tour2.move(500, 700)
-                                        a.rock = False
-
-                                    if a.color == "black" and new_pos_x == 6 and new_pos_y == 0:
-                                        chess_2d[0][5] = 8
-                                        chess_2d[0][7] = 0
-                                        black_tour2.set_case(5, 0)
-                                        black_tour2.move(500, 0)
-                                        a.rock = False
-
-                                    if a.color == "white" and new_pos_x == 2 and new_pos_y == 7:
-                                        chess_2d[7][3] = 25
-                                        chess_2d[7][7] = 0
-                                        white_tour1.set_case(3, 7)
-                                        white_tour1.move(300, 700)
-                                        a.rock = False
-
-                                    if a.color == "black" and new_pos_x == 2 and new_pos_y == 0:
-                                        chess_2d[0][3] = 1
-                                        chess_2d[0][0] = 0
-                                        black_tour1.set_case(3, 0)
-                                        black_tour1.move(300, 0)
-                                        a.rock = False
+                                mouvement_tour_rock(a, new_pos_x, new_pos_y)
                                 
                                 # gestion du tableau la restranscription tableau 2D = pièce de l'echequier 
                                 chess_2d[new_pos_y][new_pos_x] = number_piece
@@ -130,15 +103,7 @@ def run_game_1V1():
                                 a.move(val[0], val[1])
 
 
-
-                                # changement de status lors d'un premier mouvement 
-                                if type_piece == "Pion blanc" or type_piece == "Pion noir":
-                                    a.status = True
-                                if type_piece == "Roi blanc" or type_piece == "Roi noir":
-                                    a.status = True
-                                if type_piece == "Tour blanche" or type_piece == "Tour noir":
-                                    a.status = True
-
+                                gestion_status(type_piece, a)
 
                                 #############################################################
                                 # changement de tour + vérification d'un échec
@@ -151,10 +116,11 @@ def run_game_1V1():
                                     if black_roi.check == True:
                                         # import des déplacements possible en etat d'échec !
                                         tab_check_piece = test_prevision_deplacement(chess_2d, pos_roi_x, pos_roi_y, black_roi)
-
                                         if tab_check_piece == []:
                                             print("echec et mat")
                                             running = False
+
+
 
                                 elif TOUR == 2:
                                     TOUR = 1
@@ -222,13 +188,7 @@ def run_game_1V1():
                                         # mouvement de la piece
                                         a.move(val[0], val[1])
 
-                                        # si la piece est un pion changement de son status
-                                        if type_piece == "Pion blanc" or type_piece == "Pion noir":
-                                            a.status = True
-                                        if type_piece == "Roi blanc" or type_piece == "Roi noir":
-                                            a.status = False
-                                        if type_piece == "Tour blanche" or type_piece == "Tour noir":
-                                            a.status = False
+                                        gestion_status(type_piece, a)
 
                                         if TOUR == 1 and white_roi.check == True:
                                             # mettre fonction qui gère le déplacement lors de l'echec
@@ -271,22 +231,12 @@ def run_game_1V1():
                             stat = True
                         
                         if number_piece != 0:
+
                             # Création d'un pointeur sur l'instance de la pièce séléctionné
                             a = retranscription_number(number_piece)
 
-                            # gestion de tour 
-                            couleur = a.color
-                            if couleur == "white" and TOUR == 1:
-                                a.selected = True
-                                print(f"{a.type} à été selectionné")
-                            elif couleur == "black" and TOUR == 2:
-                                a.selected = True
-                                print(f"{a.type} à été selectionné")
-
-                            elif couleur == "white" and TOUR == 2:
-                                print("Au tour des Noirs") 
-                            else:
-                                print("Au tour des Blancs")
+                            # Affichage du tour en cas d'erreur
+                            mauvais_tour(a, TOUR)
                                 
                         # stockage du type de la pièces
                         type_piece = type_of_piece(number_piece)
@@ -360,3 +310,59 @@ def preparation_inversion_ecran(screen):
         # Remettez le screen inversé à l'écran d'affichage
         pygame.display.get_surface().blit(flipped_screen, (0, 0))
 
+
+
+def mauvais_tour(a, TOUR):
+    # gestion de tour 
+    couleur = a.color
+    if couleur == "white" and TOUR == 1:
+        a.selected = True
+        print(f"{a.type} à été selectionné")
+    elif couleur == "black" and TOUR == 2:
+        a.selected = True
+        print(f"{a.type} à été selectionné")
+
+    elif couleur == "white" and TOUR == 2:
+        print("Au tour des Noirs") 
+    else:
+        print("Au tour des Blancs")
+
+
+def gestion_status(type_piece, a):
+    # si la piece est un pion changement de son status
+    if type_piece == "Pion blanc" or type_piece == "Pion noir":
+        a.status = True
+    if type_piece == "Roi blanc" or type_piece == "Roi noir":
+        a.status = False
+    if type_piece == "Tour blanche" or type_piece == "Tour noir":
+        a.status = False
+
+def mouvement_tour_rock(a, new_pos_x, new_pos_y):
+    if a.type == "roi" and a.rock == True:
+        if a.color == "white" and new_pos_x == 6 and new_pos_y == 7:
+            chess_2d[7][5] = 32
+            chess_2d[7][7] = 0
+            white_tour2.set_case(5, 7)
+            white_tour2.move(500, 700)
+            a.rock = False
+
+        if a.color == "black" and new_pos_x == 6 and new_pos_y == 0:
+            chess_2d[0][5] = 8
+            chess_2d[0][7] = 0
+            black_tour2.set_case(5, 0)
+            black_tour2.move(500, 0)
+            a.rock = False
+
+        if a.color == "white" and new_pos_x == 2 and new_pos_y == 7:
+            chess_2d[7][3] = 25
+            chess_2d[7][7] = 0
+            white_tour1.set_case(3, 7)
+            white_tour1.move(300, 700)
+            a.rock = False
+
+        if a.color == "black" and new_pos_x == 2 and new_pos_y == 0:
+            chess_2d[0][3] = 1
+            chess_2d[0][0] = 0
+            black_tour1.set_case(3, 0)
+            black_tour1.move(300, 0)
+            a.rock = False

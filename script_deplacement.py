@@ -331,6 +331,7 @@ def fonction_test(chess_2d, piece, pos_roi_x, pos_roi_y, roi):
 
     deplacement_post_traitement_roi = deplacement(chess_2d, type_piece, piece.case_x, piece.case_y, piece)
 
+
     if type_piece == "Roi blanc" or type_piece == "Roi noir" :
         for x, y in deplacement_post_traitement_roi:
             verif_nouvelle_case = fonction_verif_roi_check(chess_2d, x, y, roi)
@@ -339,8 +340,13 @@ def fonction_test(chess_2d, piece, pos_roi_x, pos_roi_y, roi):
 
     else :
         for x, y in deplacement_post_traitement_roi:
+
+            if piece.type == "cavalier" and piece.color == "black":
+                print(piece.num_case)
+                print(piece.case_x, piece.case_y)
+
             # Appel du déplacement imaginaire de la piece
-            cp_chess_2d[piece.case_y][piece.case_y] = 0
+            cp_chess_2d[piece.case_y][piece.case_x] = 0
             cp_chess_2d[y][x] = piece.num_case
 
             # test de l'état déchec avec un déplacement imaginaire
@@ -351,7 +357,23 @@ def fonction_test(chess_2d, piece, pos_roi_x, pos_roi_y, roi):
 
             cp_chess_2d = copy.deepcopy(chess_2d)
 
+            
+
     return tab_dep
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def deplacement(chess_2d, type_piece, pos_x, pos_y, piece):

@@ -60,7 +60,7 @@ black_tour2 = Tour('black', pos_7, pos_0,  'image/tour_noir.png', 7, 0, 8)
 white_fou1= Fou('white', pos_2, pos_7,  'image/fou_blanc.png', 2, 7, 27)
 white_fou2= Fou('white', pos_5, pos_7,  'image/fou_blanc.png', 5, 7, 30)
 
-black_fou1= Fou('black', pos_2, pos_0,  'image/fou_noir.png', 2, 7, 3)
+black_fou1= Fou('black', pos_2, pos_0,  'image/fou_noir.png', 2, 0, 3)
 black_fou2= Fou('black', pos_5, pos_0,  'image/fou_noir.png', 5, 0, 6)
 
 white_cavalier1= Cavalier('white', pos_1, pos_7,  'image/cavalier_blanc.png', 1, 7, 26)
