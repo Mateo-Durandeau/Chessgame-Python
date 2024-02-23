@@ -61,6 +61,7 @@ class Pion(Piece):
         self.life = True
         self.type = "pion"
         self.passant = False
+        self.attente = False
 
 class Tour(Piece):
     def __init__(self, color, x, y, path, case_x, case_y, num_case):

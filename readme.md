@@ -19,15 +19,13 @@ cloner le dépot pour éxecuter le main
 - Échec et mouvement du roi lors de l'échec.
 - Implémentation de l'échec et mat et du pat.
 - Affichage lors des séléctions des pièces et Affichage des mouvements possible avec un rond
-- Règles spécifiques : promotion du pion, rock, clouage.
+- Règles spécifiques : promotion du pion, rock, clouage, Prise en passant..
 
 ### Fonctionnalités en cours de développement : 
-- Règles spécifiques : Prise en passant.
-
-### Fonctionnalités prévues : 
-
 - Affichage Pygame pour des fonctionnalités de choix et statistiques.
 - gestion des paramètres de la partie d'échec
+
+### Fonctionnalités prévues : 
 - Optimisation du code python
 - Jeu solo contre une IA utilisant l'algorithme Mini-Max avec parcours des coups sous forme d'arbre et élagage alpha-bêta fait en C++ pour gain de temps et ajout dictionnaire ouveture.
 - reglage des bugs trouvés 

@@ -431,8 +431,10 @@ def deplacement(chess_2d, pos_x, pos_y, piece):
         try: 
             if piece.case_y == 2:
                 if 9 <= chess_2d[pos_y+1][pos_x+1] <= 16 and chess_2d[pos_y][pos_x+1] == 0 and chess_2d[pos_y-1][pos_x+1] == 0:
-                   tab_deplacement_possible.append((pos_x + 1, pos_y - 1))
-                   piece.passant = True
+                    piece_temp = retranscription_number(chess_2d[pos_y+1][pos_x+1])
+                    if piece_temp.attente == True:
+                        tab_deplacement_possible.append((pos_x + 1, pos_y - 1))
+                        piece.passant = True
 
 
         except IndexError:
@@ -441,8 +443,10 @@ def deplacement(chess_2d, pos_x, pos_y, piece):
         try: 
             if piece.case_y == 2:
                 if 9 <= chess_2d[pos_y+1][pos_x-1] <= 16 and chess_2d[pos_y][pos_x-1] == 0 and chess_2d[pos_y-1][pos_x-1] == 0:
-                   tab_deplacement_possible.append((pos_x - 1, pos_y - 1)) 
-                   piece.passant = True
+                    piece_temp = retranscription_number(chess_2d[pos_y+1][pos_x-1])
+                    if piece_temp.attente == True:
+                        tab_deplacement_possible.append((pos_x - 1, pos_y - 1)) 
+                        piece.passant = True
 
         except IndexError:
             pass
@@ -490,8 +494,10 @@ def deplacement(chess_2d, pos_x, pos_y, piece):
         try: 
             if piece.case_y == 5:
                 if 17 <= chess_2d[pos_y-1][pos_x+1] <= 24 and chess_2d[pos_y][pos_x+1] == 0 and chess_2d[pos_y+1][pos_x+1] == 0:
-                   tab_deplacement_possible.append((pos_x + 1, pos_y + 1))
-                   piece.passant = True
+                    piece_temp = retranscription_number(chess_2d[pos_y-1][pos_x+1])
+                    if piece_temp.attente == True:
+                        tab_deplacement_possible.append((pos_x + 1, pos_y + 1))
+                        piece.passant = True
 
 
         except IndexError:
@@ -500,8 +506,10 @@ def deplacement(chess_2d, pos_x, pos_y, piece):
         try: 
             if piece.case_y == 5:
                 if 17 <= chess_2d[pos_y-1][pos_x-1] <= 24 and chess_2d[pos_y][pos_x-1] == 0 and chess_2d[pos_y+1][pos_x-1] == 0:
-                   tab_deplacement_possible.append((pos_x - 1, pos_y + 1)) 
-                   piece.passant = True
+                    piece_temp = retranscription_number(chess_2d[pos_y-1][pos_x-1])
+                    if piece_temp.attente == True:
+                        tab_deplacement_possible.append((pos_x - 1, pos_y + 1)) 
+                        piece.passant = True
 
         except IndexError:
             pass

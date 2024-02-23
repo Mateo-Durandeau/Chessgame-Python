@@ -99,9 +99,10 @@ def run_game_1V1():
                                 if pi_temp != 0:
                                     b.life = False
 
+
                                 # mouvement de la piece
                                 a.move(val[0], val[1])
-
+                                attente(a)
                                 gestion_status(a)
                                 a = promot(a)
                                 passant(a)
@@ -202,6 +203,7 @@ def run_game_1V1():
 
                                         # mouvement de la piece
                                         a.move(val[0], val[1])
+                                        attente(a)
                                         gestion_status(a)
                                         a = promot(a)
                                         passant(a)
@@ -411,6 +413,23 @@ def passant(a):
                 pion_temp = retranscription_number(chess_2d[a.case_y-2][a.case_x])
                 chess_2d[a.case_y-2][a.case_x] = 0
                 pion_temp.life = False
+
+def attente(a):
+    if a.type == "pion":
+        if a.status == False:
+            a.attente = True
+
+        else:
+            for piece in tab_piece_test:
+                if piece.type == "pion":
+                    piece.attente = False
+    else:
+        for piece in tab_piece_test:
+            if piece.type == "pion":
+                piece.attente = False
+
+    
+
 
 def reload():
     white_pion1.reset('white', pos_0, pos_6, 0, 6, 17, "pion")
