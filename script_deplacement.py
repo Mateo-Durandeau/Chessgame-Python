@@ -330,7 +330,7 @@ def fonction_test(chess_2d, piece, pos_roi_x, pos_roi_y, roi):
 
 
     deplacement_post_traitement_roi = deplacement(chess_2d, piece.case_x, piece.case_y, piece)
-
+    
 
     if piece.type == "roi":
         for x, y in deplacement_post_traitement_roi:
@@ -375,7 +375,6 @@ def deplacement(chess_2d, pos_x, pos_y, piece):
     Ajout dans un tableau les positions possible pour une pièces séléctionner --> mettre se tableau dans la seconde gestion du clic
     """
 
-    # Try pour gerer les erreurs d'index lors des pièces proche des bords ou du cavalier 
 
     # tableau qui va stocker les déplacements possible si il y en a
     tab_deplacement_possible = []
@@ -426,6 +425,29 @@ def deplacement(chess_2d, pos_x, pos_y, piece):
                 tab_deplacement_possible.append((pos_x - 1, pos_y - 1))
         except IndexError:
             pass
+
+        # vérification d'une prise en passant : 
+
+        try: 
+            if piece.case_y == 2:
+                if 9 <= chess_2d[pos_y+1][pos_x+1] <= 16 and chess_2d[pos_y][pos_x+1] == 0 and chess_2d[pos_y-1][pos_x+1] == 0:
+                   tab_deplacement_possible.append((pos_x + 1, pos_y - 1))
+                   piece.passant = True
+
+
+        except IndexError:
+            pass
+
+        try: 
+            if piece.case_y == 2:
+                if 9 <= chess_2d[pos_y+1][pos_x-1] <= 16 and chess_2d[pos_y][pos_x-1] == 0 and chess_2d[pos_y-1][pos_x-1] == 0:
+                   tab_deplacement_possible.append((pos_x - 1, pos_y - 1)) 
+                   piece.passant = True
+
+        except IndexError:
+            pass
+
+        
                 
     # Pion noir // pour détail voir commentaire des pions blancs
     if piece.type == "pion" and piece.color == "black":
@@ -462,6 +484,25 @@ def deplacement(chess_2d, pos_x, pos_y, piece):
             stat = verif_color(chess_2d, (pos_y+1), (pos_x-1))
             if chess_2d[pos_y+1][pos_x-1] != 0 and stat != "black": 
                 tab_deplacement_possible.append((pos_x - 1, pos_y + 1))
+        except IndexError:
+            pass
+
+        try: 
+            if piece.case_y == 5:
+                if 17 <= chess_2d[pos_y-1][pos_x+1] <= 24 and chess_2d[pos_y][pos_x+1] == 0 and chess_2d[pos_y+1][pos_x+1] == 0:
+                   tab_deplacement_possible.append((pos_x + 1, pos_y + 1))
+                   piece.passant = True
+
+
+        except IndexError:
+            pass
+
+        try: 
+            if piece.case_y == 5:
+                if 17 <= chess_2d[pos_y-1][pos_x-1] <= 24 and chess_2d[pos_y][pos_x-1] == 0 and chess_2d[pos_y+1][pos_x-1] == 0:
+                   tab_deplacement_possible.append((pos_x - 1, pos_y + 1)) 
+                   piece.passant = True
+
         except IndexError:
             pass
         
@@ -639,6 +680,7 @@ def deplacement(chess_2d, pos_x, pos_y, piece):
                         if couleur_piece_chemin != couleur_roi:
                             # verifier que la pièce n'est protégé par aucune autre pièce
                             tab_deplacement_temporaire.append((new_x, new_y))
+            
                             
             except IndexError:
                 pass
@@ -665,7 +707,6 @@ def deplacement(chess_2d, pos_x, pos_y, piece):
             pass
 
                 
-
         for coup_temp in tab_deplacement_temporaire:
             new_x = coup_temp[0]
             new_y = coup_temp[1]
@@ -674,6 +715,7 @@ def deplacement(chess_2d, pos_x, pos_y, piece):
             verif = fonction_verif_roi(chess_2d, new_x, new_y, piece)
             if verif == True:
                 tab_deplacement_possible.append((new_x, new_y))
+        
 
 
 
@@ -682,20 +724,25 @@ def deplacement(chess_2d, pos_x, pos_y, piece):
             
     cp_chess_2d = copy.deepcopy(chess_2d)
 
-    for X, Y in tab_deplacement_possible:
+    if piece.type == "roi":
+        return tab_deplacement_possible
+    else:
 
-        cp_chess_2d[piece.case_y][piece.case_x] = 0
-        cp_chess_2d[Y][X] = piece.num_case
+        for X, Y in tab_deplacement_possible:
 
-        # test de l'état déchec avec un déplacement imaginaire
-        if piece.color == "white":
-            test_echec = fonction_verif_roi_check(cp_chess_2d, white_roi.case_x, white_roi.case_y, white_roi)
-        elif piece.color == "black":
-            test_echec = fonction_verif_roi_check(cp_chess_2d, black_roi.case_x, black_roi.case_y, black_roi)
+            cp_chess_2d[piece.case_y][piece.case_x] = 0
+            cp_chess_2d[Y][X] = piece.num_case
 
-        if test_echec == False: 
-            tab_dep.append((X, Y))
+            # test de l'état déchec avec un déplacement imaginaire
+            if piece.color == "white":
+                test_echec = fonction_verif_roi_check(cp_chess_2d, white_roi.case_x, white_roi.case_y, white_roi)
+            elif piece.color == "black":
+                test_echec = fonction_verif_roi_check(cp_chess_2d, black_roi.case_x, black_roi.case_y, black_roi)
 
-        cp_chess_2d = copy.deepcopy(chess_2d)
+            if test_echec == False and X >= 0 and Y >= 0: 
+                tab_dep.append((X, Y))
 
-    return tab_dep
+            cp_chess_2d = copy.deepcopy(chess_2d)
+
+        return tab_dep
+

@@ -102,10 +102,11 @@ def run_game_1V1():
                                 # mouvement de la piece
                                 a.move(val[0], val[1])
 
-
                                 gestion_status(a)
-
                                 a = promot(a)
+                                passant(a)
+                                        
+
 
                                 #############################################################
                                 # changement de tour + vérification d'un échec
@@ -201,10 +202,9 @@ def run_game_1V1():
 
                                         # mouvement de la piece
                                         a.move(val[0], val[1])
-
                                         gestion_status(a)
-
                                         a = promot(a)
+                                        passant(a)
 
                                         if TOUR == 1 and white_roi.check == True:
                                             # mettre fonction qui gère le déplacement lors de l'echec
@@ -305,8 +305,9 @@ def run_game_1V1():
         clock.tick(30)  # limits FPS to 60
 
     pygame.quit()
-
-    # destruction de toutes les informations des instances / reload 
+    
+    # A GERER PLUS TARD
+    #reload()
 
     return list_game_information
 
@@ -398,3 +399,59 @@ def promot(a):
                 a.image = pygame.transform.scale(a.image, (WIDTH//8, HEIGHT//8))
                 a.changement = True
     return a
+
+def passant(a):
+    if a.type == "pion":
+        if a.passant == True: 
+            if a.color == "white":
+                pion_temp = retranscription_number(chess_2d[a.case_y+2][a.case_x])
+                chess_2d[a.case_y+2][a.case_x] = 0
+                pion_temp.life = False
+            else:
+                pion_temp = retranscription_number(chess_2d[a.case_y-2][a.case_x])
+                chess_2d[a.case_y-2][a.case_x] = 0
+                pion_temp.life = False
+
+def reload():
+    white_pion1.reset('white', pos_0, pos_6, 0, 6, 17, "pion")
+    white_pion2.reset('white', pos_1, pos_6, 1, 6, 18, "pion")
+    white_pion3.reset('white', pos_2, pos_6, 2, 6, 19, "pion")
+    white_pion4.reset('white', pos_3, pos_6, 3, 6, 20, "pion")
+    white_pion5.reset('white', pos_4, pos_6, 4, 6, 21, "pion")
+    white_pion6.reset('white', pos_5, pos_6, 5, 6, 22, "pion")
+    white_pion7.reset('white', pos_6, pos_6, 6, 6, 23, "pion")
+    white_pion8.reset('white', pos_7, pos_6, 7, 6, 24, "pion")
+
+    black_pion1.reset('black', pos_0, pos_1, 0, 1, 9, "pion")
+    black_pion2.reset('black', pos_1, pos_1, 1, 1, 10, "pion")
+    black_pion3.reset('black', pos_2, pos_1, 2, 1, 11, "pion")
+    black_pion4.reset('black', pos_3, pos_1, 3, 1, 12, "pion")
+    black_pion5.reset('black', pos_4, pos_1, 4, 1, 13, "pion")
+    black_pion6.reset('black', pos_5, pos_1, 5, 1, 14, "pion")
+    black_pion7.reset('black', pos_6, pos_1, 6, 1, 15, "pion")
+    black_pion8.reset('black', pos_7, pos_1, 7, 1, 16, "pion")
+
+    white_tour1.reset('white', pos_0, pos_7, 0, 7, 25, "tour")
+    white_tour2.reset('white', pos_7, pos_7, 7, 7, 32, "tour")
+
+    black_tour1.reset('black', pos_0, pos_0, 0, 0, 1, "tour")
+    black_tour2.reset('black', pos_7, pos_0, 7, 0, 8, "tour")
+
+    white_fou1.reset('white', pos_2, pos_7, 2, 7, 27, "fou")
+    white_fou2.reset('white', pos_5, pos_7, 5, 7, 30, "fou")
+
+    black_fou1.reset('black', pos_2, pos_0, 2, 0, 3, "fou")
+    black_fou2.reset('black', pos_5, pos_0, 5, 0, 6, "fou")
+
+    white_cavalier1.reset('white', pos_1, pos_7, 1, 7, 26, "cavalier")
+    white_cavalier2.reset('white', pos_6, pos_7, 6, 7, 31, "cavalier")
+
+    black_cavalier1.reset('black', pos_1, pos_0, 1, 0, 2, "cavalier")
+    black_cavalier2.reset('black', pos_6, pos_0, 6, 0, 7, "cavalier")
+
+    white_roi.reset('white', pos_4, pos_7, 4, 7, 29, "roi")
+    black_roi.reset('black', pos_4, pos_0, 4, 0, 5, "roi")
+
+    white_reine.reset('white', pos_3, pos_7, 3, 7, 28, "reine")
+    black_reine.reset('black', pos_3, pos_0, 3, 0, 4, "reine")
+

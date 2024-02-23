@@ -37,6 +37,18 @@ class Piece(pygame.sprite.Sprite):
     
     def get_number_cases(self):
         return (self.case_x, self.case_y)
+    
+    def reset(self, color, x, y, case_x, case_y, num_case, type_game):
+        self.color = color
+        self.rect = self.image.get_rect(topleft=(x, y))
+        self.case_x = case_x
+        self.case_y = case_y
+        self.num_case = num_case
+        self.status = False
+        self.selected = False
+        self.life = True
+        self.type = type_game
+
 
 
 # sous class de piece qui herite des méthodes de Piece
@@ -48,6 +60,7 @@ class Pion(Piece):
         self.changement = False
         self.life = True
         self.type = "pion"
+        self.passant = False
 
 class Tour(Piece):
     def __init__(self, color, x, y, path, case_x, case_y, num_case):
