@@ -146,7 +146,6 @@ def retranscription_pos(x_pos, y_pos):
         elif pos_7 <= x_pos <= pos_8:
             case_x, case_y = 7, 7
     
-    #print(chess_2d[case_y][case_x])
     return case_x, case_y
 
 ################################################################################

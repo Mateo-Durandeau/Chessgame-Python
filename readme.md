@@ -20,14 +20,16 @@ cloner le dépot pour éxecuter le main
 - Implémentation de l'échec et mat et du pat.
 - Affichage lors des séléctions des pièces et Affichage des mouvements possible avec un rond
 - Règles spécifiques : promotion du pion, rock, clouage, Prise en passant..
+- Menu de seleciton du mode de jeu
+- Après chaque changement de joueur, rotation de l'échiquier et des pièces pour jouer à deux sur le même ordinateur.
 
 ### Fonctionnalités en cours de développement : 
-- Affichage Pygame pour des fonctionnalités de choix et statistiques.
 - gestion des paramètres de la partie d'échec
+- ajout d'horloge
 
 ### Fonctionnalités prévues : 
 - Optimisation du code python
 - Jeu solo contre une IA utilisant l'algorithme Mini-Max avec parcours des coups sous forme d'arbre et élagage alpha-bêta fait en C++ pour gain de temps et ajout dictionnaire ouveture.
-- reglage des bugs trouvés 
-- Après chaque changement de joueur, rotation de l'échiquier et des pièces pour jouer à deux sur le même ordinateur.
+
+- creer une application 
   

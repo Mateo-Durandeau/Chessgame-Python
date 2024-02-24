@@ -1,6 +1,7 @@
 import pygame
 import script_game
 import script_load_instance
+import global_var
 
 WIDTH_SCREEN = 1200
 HEIGHT_SCREEN = 800
@@ -55,8 +56,7 @@ def run_game_gestion():
                     mouse_pos = pygame.mouse.get_pos()
 
                     if mouse_pos[0] >= POS_X_BT1 and mouse_pos[0] <= (POS_X_BT1 + 400) and mouse_pos[1] >= POS_Y_BT1 and mouse_pos[1] <= (POS_Y_BT1 + 150):
-                        script_load_instance.reload()
-                        LIST_INFORMATION_1V1.append(script_game.run_game_1V1())
+                        LIST_INFORMATION_1V1.append(script_game.run_game_1V1(global_var.chess_2d))
                         running_gestion = False
                     elif mouse_pos[0] >= POS_X_BT2 and mouse_pos[0] <= (POS_X_BT2 + 400) and mouse_pos[1] >= POS_Y_BT2 and mouse_pos[1] <= (POS_Y_BT2 + 150):
                         pass
@@ -95,5 +95,16 @@ def run_game_gestion():
         pygame.display.flip()        
 
     pygame.quit()
+
+    global_var.chess_2d = [
+            [1, 2, 3, 4, 5, 6, 7, 8],
+            [9, 10, 11, 12, 13, 14, 15, 16],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [17, 18, 19, 20, 21, 22, 23, 24],
+            [25, 26, 27, 28, 29, 30, 31, 32]
+           ]
 
     return quit
