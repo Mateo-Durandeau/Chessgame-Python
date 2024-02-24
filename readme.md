@@ -21,7 +21,7 @@ cloner le dépot pour éxecuter le main
 - Affichage lors des séléctions des pièces et Affichage des mouvements possible avec un rond
 - Règles spécifiques : promotion du pion, rock, clouage, Prise en passant..
 - Menu de seleciton du mode de jeu
-- Après chaque changement de joueur, rotation de l'échiquier et des pièces pour jouer à deux sur le même ordinateur.
+- Après chaque changement de joueur, rotation de l'échiquier et des pièces pour jouer à deux sur le même ordinateur si l'option est activé.
 
 ### Fonctionnalités en cours de développement : 
 - gestion des paramètres de la partie d'échec

@@ -5,7 +5,7 @@ from script_class_game import *
     # Chargement des pièces
 ################################################################################
 
-def load_piece(TOUR):
+def load_piece(TOUR, rotation):
     """ Chargement des pièces si elles sont en vie """
 
     all_sprites = pygame.sprite.Group()
@@ -18,13 +18,15 @@ def load_piece(TOUR):
                     white_roi, black_roi, white_reine, black_reine]
     
     for piece_selected in tab_piece: 
-        if piece_selected.life == True: 
-            if TOUR == 2 and piece_selected.turn == True: 
-                piece_selected.rotate(180)  # Pivote la pièce de 180 degrés
-                piece_selected.turn = False
-            elif TOUR == 1 and piece_selected.turn == True:
-                piece_selected.rotate(180)  # Pivote la pièce de 180 degrés
-                piece_selected.turn = False
+        
+        if piece_selected.life == True:
+            if rotation == True: 
+                if TOUR == 2 and piece_selected.turn == True: 
+                    piece_selected.rotate(180)  # Pivote la pièce de 180 degrés
+                    piece_selected.turn = False
+                elif TOUR == 1 and piece_selected.turn == True:
+                    piece_selected.rotate(180)  # Pivote la pièce de 180 degrés
+                    piece_selected.turn = False
             
             
             # Ajout au groupe de sprite
