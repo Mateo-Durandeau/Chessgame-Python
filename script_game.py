@@ -11,12 +11,15 @@ pygame.init()
 
 
 def run_game_1V1(chess_2d):
-    # A gerer plus tard c'est pour les statisiques
+
+
+    # A gerer plus tard c'est pour les statisiques !!!
     list_game_information = []
 
-    # Création du tableau / echiquer 
+    # Création du tableau 
     board = Board(WIDTH, HEIGHT)
 
+    # init de l'état du jeu
     ECHEC_MAT = "none"
 
     # définition du tour des blancs au début de partie
@@ -63,6 +66,7 @@ def run_game_1V1(chess_2d):
             if event.type == pygame.QUIT:
                 running = False
 
+
             elif event.type == pygame.MOUSEBUTTONDOWN: 
                 if event.pos[0] <= WIDTH and ECHEC_MAT == "none":
                     if event.button == 1:  # Clic gauche de la souris
@@ -79,6 +83,7 @@ def run_game_1V1(chess_2d):
                             new_mouse_x, new_mouse_y = event.pos
                             if TOUR == 2:
                                 new_mouse_y = HEIGHT - new_mouse_y
+
                             # retranscription des positions en case
                             new_pos = retranscription_pos(new_mouse_x, new_mouse_y)
 
@@ -122,9 +127,6 @@ def run_game_1V1(chess_2d):
                                     a = promot(a)
                                     passant(a)
                                             
-
-
-                                    #############################################################
                                     # changement de tour + vérification d'un échec
                                     if TOUR == 1:
                                         TOUR = 2
@@ -163,7 +165,6 @@ def run_game_1V1(chess_2d):
                                                 ECHEC_MAT = "pat"
                                         changement_tour()
 
-                                    # sorti de la boucle pour eviter des tours supplémentaire
                                     break
                         
 
@@ -236,9 +237,7 @@ def run_game_1V1(chess_2d):
                                                 TOUR = 1
                                                 a.selected = False
                                                 changement_tour()
-                                            
-                                                # sorti de la boucle pour eviter des tours supplémentaire
-                            
+                                                                        
                                             break    
                             a.selected = False
 
@@ -277,7 +276,6 @@ def run_game_1V1(chess_2d):
                                                             
 
                         # Gestion du relaché de clic à gerer plus tard
-                            
             #################################################################################
                 #elif event.type == pygame.MOUSEBUTTONUP:
                     #if event.button == 1:  # Relâchez le clic gauche de la souris
@@ -287,11 +285,13 @@ def run_game_1V1(chess_2d):
                         #a.move(mouse_x, mouse_y)
                         #a.selected = False
             #################################################################################
-
+                                
+                # si il y a echec et un clic fermer la partie
                 elif event.button == 1:
                     if ECHEC_MAT != "none":
                         running = False
 
+        # Gestion et affichage du jeu tant qu'il ny a pas d'échec et mat ou de pat
         if ECHEC_MAT == "none":
 
             # chargement du tableau 
@@ -311,6 +311,7 @@ def run_game_1V1(chess_2d):
             # affichage des mouvements possible
             if a.selected == True:
                 tab_dep_temp = deplacement(chess_2d, pos[0], pos[1], a)
+                # hors de l'échec
                 if stat == False:
                     for X, Y in tab_dep_temp:
                         tab_dep_pos = retranscription_case(X, Y) 
@@ -324,26 +325,22 @@ def run_game_1V1(chess_2d):
                                 screen.blit(image_pos, (tab_dep_pos[0], tab_dep_pos[1]))
 
 
+            # inversion de l'écran quand les noirs jouent
             if TOUR == 2: 
-                flipped_screen = pygame.transform.flip(screen, False, True)  # False pour non flip X, True pour flip y
-                # Remettez le screen inversé à l'écran d'affichage
+                flipped_screen = pygame.transform.flip(screen, False, True)
                 pygame.display.get_surface().blit(flipped_screen, (0, 0))
 
 
-            # flip() the display to put your work on screen
-            pygame.display.flip()
+            pygame.display.flip() 
 
-            clock.tick(30)  # limits FPS to 60
-
-
-
+            clock.tick(30)  # FPS
 
         elif ECHEC_MAT == "mat":
             screen.fill((0,0,0))
             screen.blit(text_MAT, ((WIDTH//2)-50, (HEIGHT//2)-50))
             screen.blit(next_game, ((WIDTH//2)-100, (HEIGHT//2)+25))
             pygame.display.flip()
-            clock.tick(30)  # limits FPS to 60
+            clock.tick(30)  # FPS
 
         elif ECHEC_MAT == "pat":
             screen.fill((0,0,0))
@@ -354,22 +351,12 @@ def run_game_1V1(chess_2d):
 
     pygame.quit()
     
-    # A GERER PLUS TARD
+    # rechargement des intances au paramètres de bases
     reload()
 
+    # A GERER PLUS TARD : RETOURNE DES INFORMATIONS SUR LA PARTIE POUR GRAPHIQUE OU STAT
     return list_game_information
 
-
-def preparation_inversion_ecran(screen):
-        
-        # FAIRE FONCTION RETRANSCRIP POSITION INVERSE 
-
-        # RETOURNER LES PIECES NOIRS ET BLANCHE
-
-        # Avant l'actualisation graphique, inversez l'écran Y-axis  
-        flipped_screen = pygame.transform.flip(screen, False, True)  # False pour non flip X, True pour flip y
-        # Remettez le screen inversé à l'écran d'affichage
-        pygame.display.get_surface().blit(flipped_screen, (0, 0))
 
 def changement_tour():
     for piece in tab_piece_test:
@@ -377,7 +364,7 @@ def changement_tour():
 
 
 def mauvais_tour(a, TOUR):
-    # gestion de tour 
+    # gestion de tour / ne séléctionne pas la piece en cas de mauvaise couleur pour le tour
     couleur = a.color
     if couleur == "white" and TOUR == 1:
         a.selected = True
@@ -386,7 +373,9 @@ def mauvais_tour(a, TOUR):
 
 
 def gestion_status(a):
-    # si la piece est un pion changement de son status
+    """
+    Gestion des status pour les régles spécifique comme le rock ou le double saut du pion
+    """
     if a.type == "pion":
         a.status = True
     if a.type == "roi":
@@ -395,6 +384,9 @@ def gestion_status(a):
         a.status = False
 
 def mouvement_tour_rock(a, new_pos_x, new_pos_y):
+    """
+    Gère le mouvement de la tour pendant un rock du roi
+    """
     if a.type == "roi" and a.rock == True:
         if a.color == "white" and new_pos_x == 6 and new_pos_y == 7:
             chess_2d[7][5] = 32
@@ -426,6 +418,10 @@ def mouvement_tour_rock(a, new_pos_x, new_pos_y):
 
 
 def promot(a):
+    """
+    Gère la promotion du pion en reine
+    """
+
     if a.type == "pion" and a.changement == False:
         pos_temp_chang = retranscription_case(a.case_x, a.case_y)
         if a.color == "white":
@@ -444,6 +440,9 @@ def promot(a):
     return a
 
 def passant(a):
+    """
+    Gère la prise du pion pendant une prise en passant d'un pion
+    """
     if a.type == "pion":
         if a.passant == True: 
             if a.color == "white":
@@ -456,6 +455,9 @@ def passant(a):
                 pion_temp.life = False
 
 def attente(a):
+    """
+    Gère si une piece vient de faire un saut double ou non pour tester une prise en passant
+    """
     if a.type == "pion":
         if a.status == False:
             a.attente = True
@@ -471,6 +473,11 @@ def attente(a):
 
 
 def tab_to_load_instance(chess_2d, event):
+    """
+    A GERER PLUS TARD : 
+        - CREER UNE POSITION D'ECHIQUIER PAR RAPPORT A UN TABLEAU 2D
+    
+    """
     for Y in chess_2d: 
         for X in Y:
 
@@ -508,10 +515,10 @@ def tab_to_load_instance(chess_2d, event):
 
 
 
-
-
-
 def reload():
+    """
+    Reinitialisation des intances pour une nouvelle partie
+    """
     white_pion1.reset_pion('white', pos_0, pos_6, 0, 6, 17, "pion", 'image/pion_blanc.png')
     white_pion2.reset_pion('white', pos_1, pos_6, 1, 6, 18, "pion", 'image/pion_blanc.png')
     white_pion3.reset_pion('white', pos_2, pos_6, 2, 6, 19, "pion", 'image/pion_blanc.png')

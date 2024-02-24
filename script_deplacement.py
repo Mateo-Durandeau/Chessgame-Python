@@ -1,6 +1,9 @@
 from retransicrip import *
 import copy
 
+###
+###### IMPORTANT : COMMENTER LE FONCTIONNEMENT DU CODE
+###
 ################################################################################
     # gestion des déplacements
 ################################################################################
@@ -40,17 +43,14 @@ def fonction_verif_roi(chess_2d, new_x, new_y, piece):
 
     couleur_roi = piece.color
 
-    
-
     # vérification des pions
     tab_pion_noir = [(1, 1), (-1, 1)]
     tab_pion_blanc = [(1, -1), (-1, -1)]
 
-    directions = [(1, 1), (-1, 1), (1, -1), (-1, -1)]  # Les directions possibles sur les diagonales
+    directions = [(1, 1), (-1, 1), (1, -1), (-1, -1)] 
     directions_ligne = [(-1, 0), (1, 0), (0, -1), (0, 1)] 
     direction_cavalier = [(-1, -2), (-2, -1), (-2, 1), (-1, 2), (1, 2), (2, 1), (2, -1), (1, -2)]
     direction_roi = [(-1, -1), (0,-1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1)]
-    
     
     # verification roi: 
         
@@ -107,7 +107,7 @@ def fonction_verif_roi(chess_2d, new_x, new_y, piece):
                 pos_x, pos_y = new_x + i * dx, new_y + i * dy
 
                 if not (0 <= pos_x < 8 and 0 <= pos_y < 8):
-                    break  # Sortir de la boucle si en dehors de l'échiquier | permet de faire Les 4 testes en 1 et ne génère par une erreur d'index 
+                    break  
 
                 verif = verif_case(chess_2d, pos_x, pos_y, couleur_roi, "fou")
                 verif_reine = verif_case(chess_2d, pos_x, pos_y, couleur_roi, "reine")
@@ -125,7 +125,6 @@ def fonction_verif_roi(chess_2d, new_x, new_y, piece):
             pass
 
     
-
     # vérification des pièces sur les lignes 
 
     for direction in directions_ligne:
@@ -136,7 +135,7 @@ def fonction_verif_roi(chess_2d, new_x, new_y, piece):
                 pos_x, pos_y = new_x + i * dx, new_y + i * dy
 
                 if not (0 <= pos_x < 8 and 0 <= pos_y < 8):
-                    break  # Sortir de la boucle si en dehors de l'échiquier | permet de faire Les 4 testes en 1 et ne génère par une erreur d'index 
+                    break 
 
                 verif = verif_case(chess_2d, pos_x, pos_y, couleur_roi, "tour")
                 verif_reine = verif_case(chess_2d, pos_x, pos_y, couleur_roi, "reine")
@@ -191,7 +190,7 @@ def fonction_verif_roi_check(chess_2d, new_x, new_y, roi):
     tab_pion_noir = [(1, 1), (-1, 1)]
     tab_pion_blanc = [(1, -1), (-1, -1)]
 
-    directions = [(1, 1), (-1, 1), (1, -1), (-1, -1)]  # Les directions possibles sur les diagonales
+    directions = [(1, 1), (-1, 1), (1, -1), (-1, -1)] 
     directions_ligne = [(-1, 0), (1, 0), (0, -1), (0, 1)] 
     direction_cavalier = [(-1, -2), (-2, -1), (-2, 1), (-1, 2), (1, 2), (2, 1), (2, -1), (1, -2)]
 
@@ -204,7 +203,7 @@ def fonction_verif_roi_check(chess_2d, new_x, new_y, roi):
                 pos_x, pos_y = new_x + i * dx, new_y + i * dy
 
                 if not (0 <= pos_x < 8 and 0 <= pos_y < 8):
-                    break  # Sortir de la boucle si en dehors de l'échiquier | permet de faire Les 4 testes en 1 et ne génère par une erreur d'index 
+                    break  
 
                 verif = verif_case_king(chess_2d, pos_x, pos_y, couleur_roi, "tour")
                 verif_reine = verif_case_king(chess_2d, pos_x, pos_y, couleur_roi, "reine")
@@ -231,7 +230,7 @@ def fonction_verif_roi_check(chess_2d, new_x, new_y, roi):
                 pos_x, pos_y = new_x + i * dx, new_y + i * dy
 
                 if not (0 <= pos_x < 8 and 0 <= pos_y < 8):
-                    break  # Sortir de la boucle si en dehors de l'échiquier | permet de faire Les 4 testes en 1 et ne génère par une erreur d'index 
+                    break  
 
                 verif = verif_case_king(chess_2d, pos_x, pos_y, couleur_roi, "fou")
                 verif_reine = verif_case_king(chess_2d, pos_x, pos_y, couleur_roi, "reine")
@@ -255,7 +254,7 @@ def fonction_verif_roi_check(chess_2d, new_x, new_y, roi):
             pos_y = new_y + dy
 
             if not (0 <= pos_x < 8 and 0 <= pos_y < 8):
-                continue  # Sortir de la boucle si en dehors de l'échiquier | permet de faire Les 4 testes en 1 et ne génère par une erreur d'index  
+                continue  
             verif = verif_case_king(chess_2d, pos_x, pos_y, couleur_roi, "cavalier")
             if verif == False:
                 return True
@@ -531,7 +530,7 @@ def deplacement(chess_2d, pos_x, pos_y, piece):
                     new_x, new_y = pos_x + i * dx, pos_y + i * dy
 
                     if not (0 <= new_x < 8 and 0 <= new_y < 8):
-                        break  # Sortir de la boucle si en dehors de l'échiquier | permet de faire Les 4 testes en 1 et ne génère par une erreur d'index 
+                        break  
 
                     if chess_2d[new_y][new_x] == 0:
                         tab_deplacement_possible.append((new_x, new_y))
@@ -647,7 +646,7 @@ def deplacement(chess_2d, pos_x, pos_y, piece):
                     new_x, new_y = pos_x + i * dx, pos_y + i * dy
 
                     if not (0 <= new_x < 8 and 0 <= new_y < 8):
-                        break  # Sortir de la boucle si en dehors de l'échiquier | permet de faire Les 4 testes en 1 et ne génère par une erreur d'index 
+                        break 
 
                     if chess_2d[new_y][new_x] == 0:
                         tab_deplacement_possible.append((new_x, new_y))
@@ -724,11 +723,6 @@ def deplacement(chess_2d, pos_x, pos_y, piece):
             if verif == True:
                 tab_deplacement_possible.append((new_x, new_y))
         
-
-
-
-    # Fonctionnalité du clouage
-    # on a : piece
             
     cp_chess_2d = copy.deepcopy(chess_2d)
 

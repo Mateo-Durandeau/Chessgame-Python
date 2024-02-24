@@ -155,9 +155,6 @@ def retranscription_pos(x_pos, y_pos):
 def retranscription_case(case_x, case_y):
     """
     retranscris un numéro de case en position 
-
-    utile pour les déplacements et l'échec et mat
-
     """
 
     if case_x == 0:

@@ -5,8 +5,6 @@ from script_class_game import *
     # Chargement des pièces
 ################################################################################
 
-
-
 def load_piece(TOUR):
     """ Chargement des pièces si elles sont en vie """
 
@@ -33,8 +31,6 @@ def load_piece(TOUR):
             all_sprites.add(piece_selected)
 
     return all_sprites
-
-
 
 
 ################################################################################
@@ -83,6 +79,7 @@ black_roi = Roi('black', pos_4, pos_0,  'image/roi_noir.png', 4, 0, 5)
 white_reine= Reine('white', pos_3, pos_7,  'image/dame_blanche.png', 3, 7, 28)
 black_reine = Reine('black', pos_3, pos_0,  'image/dame_noir.png', 3, 0, 4)
 
+# tavleau contenant les intances des pieces
 tab_piece_test = [white_pion1, white_pion2, white_pion3, white_pion4, white_pion5, white_pion6, white_pion7, white_pion8, 
                     black_pion1, black_pion2, black_pion3, black_pion4, black_pion5, black_pion6, black_pion7, black_pion8, 
                     white_tour1, white_tour2, black_tour1, black_tour2, 

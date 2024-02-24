@@ -3,6 +3,8 @@ import script_game
 import script_load_instance
 import global_var
 
+
+# Contantes pour le placements de l'écran d'accueil
 WIDTH_SCREEN = 1200
 HEIGHT_SCREEN = 800
 
@@ -26,11 +28,15 @@ LIST_INFORMATION_1V1 = []
 def run_game_gestion():
 
     pygame.init()
+
+    # Variable qui gère l'état de lancement
     quit = True
+    running_gestion = True
+
     # Paramètre de l'écran 
     pygame.display.set_caption("Menu jeu")
     window_gestion = pygame.display.set_mode((WIDTH_SCREEN, HEIGHT_SCREEN))
-    running_gestion = True
+    
 
 
     # load des images
@@ -45,8 +51,10 @@ def run_game_gestion():
     nuage = pygame.image.load('image/nuage.png')
     nuage = pygame.transform.scale(nuage, (700, 500))
 
+    # boucle principal
     while running_gestion:
 
+        # evenement des cliques
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running_gestion = False 
@@ -54,13 +62,15 @@ def run_game_gestion():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     mouse_pos = pygame.mouse.get_pos()
-
+                    # Gestion des clics sur les boutons
                     if mouse_pos[0] >= POS_X_BT1 and mouse_pos[0] <= (POS_X_BT1 + 400) and mouse_pos[1] >= POS_Y_BT1 and mouse_pos[1] <= (POS_Y_BT1 + 150):
+                        # appel de la fonction du jeu d'échec en 1V1
                         LIST_INFORMATION_1V1.append(script_game.run_game_1V1(global_var.chess_2d))
                         running_gestion = False
                     elif mouse_pos[0] >= POS_X_BT2 and mouse_pos[0] <= (POS_X_BT2 + 400) and mouse_pos[1] >= POS_Y_BT2 and mouse_pos[1] <= (POS_Y_BT2 + 150):
                         pass
                     elif mouse_pos[0] >= POS_X_BT3 and mouse_pos[0] <= (POS_X_BT3 + 400) and mouse_pos[1] >= POS_Y_BT3 and mouse_pos[1] <= (POS_Y_BT3 + 150):
+                        # Bouton pour quitter
                         quit = False
                         running_gestion = False
 
@@ -69,7 +79,7 @@ def run_game_gestion():
         if running_gestion == False: 
             break
 
-
+        # AFFICHAGE DU BACKGROUND
         window_gestion.fill((7, 75, 150))
         window_gestion.blit(nuage, (-50, 10))
         window_gestion.blit(nuage, (700, 300))
@@ -96,6 +106,7 @@ def run_game_gestion():
 
     pygame.quit()
 
+    # Permet de reload le jeu d'échec en cas d'un relancement de partie
     global_var.chess_2d = [
             [1, 2, 3, 4, 5, 6, 7, 8],
             [9, 10, 11, 12, 13, 14, 15, 16],
