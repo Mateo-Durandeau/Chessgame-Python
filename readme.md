@@ -8,7 +8,10 @@ Exécutez `pip install pygame` dans le terminal Python.
 
 ## Présentation
 
-Voici un jeu d'échecs codé en Python avec la librairie Pygame. Lancez le fichier `main.py` pour démarrer une partie.
+Cloner le dépot : 
+`git clone https://github.com/Mateo-Durandeau/Chessgame-Python.git`
+
+Voici un jeu d'échecs réalisé et codé en Python avec la librairie Pygame. Lancez le fichier `main.py` pour démarrer une partie.
 cloner le dépot pour éxecuter le main
 'pygame 2.5.2 (SDL 2.28.3, Python 3.11.8)'
 
@@ -30,6 +33,5 @@ cloner le dépot pour éxecuter le main
 ### Fonctionnalités prévues : 
 - Optimisation du code python
 - Jeu solo contre une IA utilisant l'algorithme Mini-Max avec parcours des coups sous forme d'arbre et élagage alpha-bêta fait en C++ pour gain de temps et ajout dictionnaire ouveture.
-
 - creer une application 
   

@@ -10,8 +10,9 @@ pygame.init()
 
 
 
-def run_game_1V1(chess_2d):
+def run_game_1V1(chess_2d, rotation_game):
 
+    rotation = rotation_game
 
     # A gerer plus tard c'est pour les statisiques !!!
     list_game_information = []
@@ -25,11 +26,6 @@ def run_game_1V1(chess_2d):
     # définition du tour des blancs au début de partie
     TOUR = 1
 
-    # Etat rotation
-    rotation = True
-    TAILLE_BUTTON = 50
-    #position du bouton de rotation 
-    Button_rotate = (WIDTH+50, 100)
 
     # pygame setup
     pygame.init()
@@ -54,8 +50,6 @@ def run_game_1V1(chess_2d):
     text_PAT = my_font.render('MATCH NUL', False, (255,255,255))
     next_game = my_font_2.render('cliquez pour relancer une partie !', False, (255,255,255))
 
-    Text_rotation = my_font_2.render('Rotation ?', False, (255,255,255))
-    Text_no_rotation = my_font_2.render('Pas de rotation ?', False, (255,255,255))
 
     # initialisation de la variable a qui stockera les instances des pièces séléctionner lors des events de clic
     a = white_pion1
@@ -188,16 +182,15 @@ def run_game_1V1(chess_2d):
 
                             # stockage de la position du nouveau clic
                             new_mouse_x, new_mouse_y = event.pos
+
+                            if TOUR == 2 and rotation == True: 
+                                new_mouse_y = HEIGHT - event.pos[1]
+                            
                             # retranscription des positions en case
                             new_pos = retranscription_pos(new_mouse_x, new_mouse_y)
 
                             new_pos_x = new_pos[0]
-                            if TOUR == 1:
-                                new_pos_y = new_pos[1]
-                            elif TOUR == 2 and rotation == True: 
-                                new_pos_y = HEIGHT - new_pos[1]
-                            else: 
-                                new_pos_y = new_pos[1]
+                            new_pos_y = new_pos[1]
 
                             # nombre de la piece du nouveau clic
                             pi_temp = chess_2d[new_pos_y][new_pos_x]
@@ -301,14 +294,7 @@ def run_game_1V1(chess_2d):
                 elif event.button == 1:
                     if ECHEC_MAT != "none":
                         running = False
-                    else:
-                        mouse_x, mouse_y = event.pos
-                        if TOUR == 1:
-                            if Button_rotate[0] <= mouse_x <= Button_rotate[0] + TAILLE_BUTTON and Button_rotate[1] <= mouse_y <= Button_rotate[1] + TAILLE_BUTTON:
-                                if rotation == True: 
-                                    rotation = False
-                                elif rotation == False: 
-                                    rotation = True
+
 
 
 
@@ -323,15 +309,6 @@ def run_game_1V1(chess_2d):
             if a.selected == True:
                 # affichage de la piece selectionné :
                 pygame.draw.rect(screen, (176, 112, 82), pygame.Rect(a.rect[0], a.rect[1], WIDTH//8, HEIGHT//8))
-
-            if TOUR == 1:
-                if rotation == True:
-                    pygame.draw.rect(screen, (0, 255, 0), pygame.Rect(Button_rotate[0], Button_rotate[1], TAILLE_BUTTON, TAILLE_BUTTON))
-                    screen.blit(Text_no_rotation, (Button_rotate[0], Button_rotate[1] + TAILLE_BUTTON + 10 ))
-                elif rotation == False:
-                    pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(Button_rotate[0], Button_rotate[1], TAILLE_BUTTON, TAILLE_BUTTON))
-                    screen.blit(Text_rotation, (Button_rotate[0], Button_rotate[1] + TAILLE_BUTTON + 10 ))
-
 
 
             # chargement des pieces
@@ -390,6 +367,7 @@ def run_game_1V1(chess_2d):
 
 
 def changement_tour():
+
     for piece in tab_piece_test:
         piece.turn = True
 

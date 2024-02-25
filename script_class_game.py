@@ -49,6 +49,7 @@ class Piece(pygame.sprite.Sprite):
         self.selected = False
         self.life = True
         self.type = type_game
+        self.turn = False
 
     def reset_pion(self, color, x, y, case_x, case_y, num_case, type_game, image_path):
         self.reset(color, x, y, case_x, case_y, num_case, type_game)
@@ -57,11 +58,13 @@ class Piece(pygame.sprite.Sprite):
         self.attente = False
         self.image = pygame.image.load(image_path)
         self.image = pygame.transform.scale(self.image, (WIDTH//8, HEIGHT//8))
+        self.turn = False
 
     def reset_roi(self, color, x, y, case_x, case_y, num_case, type_game):
         self.reset(color, x, y, case_x, case_y, num_case, type_game)
         self.rock = False
         self.check = False
+        self.turn = False
 
     @staticmethod
     def type_p(number):

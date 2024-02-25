@@ -23,6 +23,8 @@ POS_Y_BT2 = 420
 POS_X_BT3 = 75
 POS_Y_BT3 = 600
 
+POS_X_BT_ROTATION = WIDTH_SCREEN // 2 + 125
+POS_Y_BT_ROTATION = 250
 LIST_INFORMATION_1V1 = []
 
 def run_game_gestion():
@@ -37,7 +39,7 @@ def run_game_gestion():
     pygame.display.set_caption("Menu jeu")
     window_gestion = pygame.display.set_mode((WIDTH_SCREEN, HEIGHT_SCREEN))
     
-
+    rotation = True
 
     # load des images
     text_affichage = pygame.image.load('image/LOGO.png')
@@ -50,6 +52,13 @@ def run_game_gestion():
     # load nuage 
     nuage = pygame.image.load('image/nuage.png')
     nuage = pygame.transform.scale(nuage, (700, 500))
+
+
+    my_font_2 = pygame.font.SysFont('Comic Sans MS', 45)
+
+    Text_rotation = my_font_2.render('Rotation', False, (0,0,0))
+    no_rotation_btn = pygame.image.load('image/c_button.png')
+    rotation_btn = pygame.image.load('image/No_c_button.png')
 
     # boucle principal
     while running_gestion:
@@ -65,7 +74,7 @@ def run_game_gestion():
                     # Gestion des clics sur les boutons
                     if mouse_pos[0] >= POS_X_BT1 and mouse_pos[0] <= (POS_X_BT1 + 400) and mouse_pos[1] >= POS_Y_BT1 and mouse_pos[1] <= (POS_Y_BT1 + 150):
                         # appel de la fonction du jeu d'échec en 1V1
-                        LIST_INFORMATION_1V1.append(script_game.run_game_1V1(global_var.chess_2d))
+                        LIST_INFORMATION_1V1.append(script_game.run_game_1V1(global_var.chess_2d, rotation))
                         running_gestion = False
                     elif mouse_pos[0] >= POS_X_BT2 and mouse_pos[0] <= (POS_X_BT2 + 400) and mouse_pos[1] >= POS_Y_BT2 and mouse_pos[1] <= (POS_Y_BT2 + 150):
                         pass
@@ -73,6 +82,11 @@ def run_game_gestion():
                         # Bouton pour quitter
                         quit = False
                         running_gestion = False
+                    elif mouse_pos[0] >= POS_X_BT_ROTATION and mouse_pos[0] <= (POS_X_BT_ROTATION + 50) and mouse_pos[1] >= POS_Y_BT_ROTATION and mouse_pos[1] <=  (POS_Y_BT_ROTATION + 50):
+                        if rotation == True:
+                            rotation = False
+                        elif rotation == False:
+                            rotation = True
 
             # gestion des clics 
 
@@ -90,6 +104,14 @@ def run_game_gestion():
 
         window_gestion.blit(bouton_1V1, (POS_X_BT1,POS_Y_BT1))
         window_gestion.blit(bouton_VSAI, (POS_X_BT2, POS_Y_BT2))
+
+        if rotation == True:
+            window_gestion.blit(no_rotation_btn, (POS_X_BT_ROTATION, POS_Y_BT_ROTATION))
+        elif rotation == False:
+            window_gestion.blit(rotation_btn, (POS_X_BT_ROTATION, POS_Y_BT_ROTATION))
+
+        window_gestion.blit(Text_rotation, (POS_X_BT_ROTATION + 55, POS_Y_BT_ROTATION))
+
 
         #Gestion du passage de la souris sur les boutons 
     
