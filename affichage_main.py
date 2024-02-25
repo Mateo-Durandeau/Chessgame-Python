@@ -27,6 +27,7 @@ POS_X_BT_ROTATION = WIDTH_SCREEN // 2 + 125
 POS_Y_BT_ROTATION = 250
 LIST_INFORMATION_1V1 = []
 
+
 def run_game_gestion():
 
     pygame.init()
@@ -38,8 +39,6 @@ def run_game_gestion():
     # Paramètre de l'écran 
     pygame.display.set_caption("Menu jeu")
     window_gestion = pygame.display.set_mode((WIDTH_SCREEN, HEIGHT_SCREEN))
-    
-    rotation = True
 
     # load des images
     text_affichage = pygame.image.load('image/LOGO.png')
@@ -60,6 +59,8 @@ def run_game_gestion():
     no_rotation_btn = pygame.image.load('image/c_button.png')
     rotation_btn = pygame.image.load('image/No_c_button.png')
 
+    rotation = False
+
     # boucle principal
     while running_gestion:
 
@@ -73,6 +74,7 @@ def run_game_gestion():
                     mouse_pos = pygame.mouse.get_pos()
                     # Gestion des clics sur les boutons
                     if mouse_pos[0] >= POS_X_BT1 and mouse_pos[0] <= (POS_X_BT1 + 400) and mouse_pos[1] >= POS_Y_BT1 and mouse_pos[1] <= (POS_Y_BT1 + 150):
+                        print(rotation)
                         # appel de la fonction du jeu d'échec en 1V1
                         LIST_INFORMATION_1V1.append(script_game.run_game_1V1(global_var.chess_2d, rotation))
                         running_gestion = False

@@ -10,9 +10,8 @@ pygame.init()
 
 
 
-def run_game_1V1(chess_2d, rotation_game):
+def run_game_1V1(chess_2d, rotation):
 
-    rotation = rotation_game
 
     # A gerer plus tard c'est pour les statisiques !!!
     list_game_information = []
@@ -337,6 +336,7 @@ def run_game_1V1(chess_2d, rotation_game):
             if TOUR == 2 and rotation == True: 
                 flipped_screen = pygame.transform.flip(screen, False, True)
                 pygame.display.get_surface().blit(flipped_screen, (0, 0))
+
 
 
             pygame.display.flip() 
