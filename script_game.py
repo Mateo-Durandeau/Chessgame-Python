@@ -443,7 +443,7 @@ def promot(a):
         elif a.color == "black":
             if a.case_y == 7:
                 a.type = 'reine'
-                a.image = pygame.image.load('image/dame_blanche.png')
+                a.image = pygame.image.load('image/dame_noir.png')
                 a.image = pygame.transform.scale(a.image, (WIDTH//8, HEIGHT//8))
                 a.changement = True
     return a
